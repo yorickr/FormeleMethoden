@@ -17,27 +17,27 @@ public class DFA<T extends Comparable> extends Automata<T> {
     }
 
     boolean accepteer(String s) {
-        // because this is a DFA, assume first is always beginstate and endstate.
+        // bij een DFA is er maar een beginstate, dus gebruiken we first.
         T beginState = this.beginStates.first();
-        T eindState = this.eindStates.first();
-        T currentState = this.beginStates.first();
-        for (int i = 0; i < s.length(); i++) {
-            System.out.println(s.charAt(i));
+        T currentState = beginState;
 
-            for (Transition<T> tr : this.transistions) {
-                System.out.println(tr);
-                System.out.println("Current state is : " +currentState);
-                if (currentState.equals(tr.vanState)) { // this is our current state
-                    System.out.println("This is our current state, checking if symbols match and advancing");
-                    if (s.charAt(i) == tr.symbol) {
-                        System.out.println("Theyre equal, currentState becomes naarState");
-                        currentState = tr.naarState;
+
+        for (int i = 0; i < s.length(); i++) {
+//            System.out.println(s.charAt(i));
+            for (Transition<T> t : this.transistions) {
+                if (t.vanState == currentState) {
+                    // if states match, parse using symbols.
+                    if (t.symbol == s.charAt(i)) {
+                        // symbols match
+//                        System.out.println("Symbols match for " + t + " and " + s.charAt(i) + " with currentState " + currentState);
+                        currentState = t.naarState;
                         break;
                     }
                 }
             }
         }
-        return (currentState == eindState);
+//        System.out.println("Ended on state " + currentState);
+        return this.eindStates.contains(currentState);
     }
 
     void geefTaalTotLengte(int n) {
