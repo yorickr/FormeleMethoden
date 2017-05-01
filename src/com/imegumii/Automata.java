@@ -10,11 +10,11 @@ import java.util.TreeSet;
  */
 public class Automata <T extends Comparable> {
 
-    private Set<Transition<T>> transistions;
+    protected Set<Transition<T>> transistions;
 
-    private SortedSet<T> states;
-    private SortedSet<T> beginStates;
-    private SortedSet<T> eindStates;
+    protected SortedSet<T> states;
+    protected SortedSet<T> beginStates;
+    protected SortedSet<T> eindStates;
 
     private SortedSet<Character> symbols;
 
@@ -50,21 +50,7 @@ public class Automata <T extends Comparable> {
 
     public void printTransitions () {
         transistions.forEach(System.out::println);
+
     }
 
-    public boolean accept(String stringToSearch) {
-        T currentState;
-        states.forEach((s) -> {
-            System.out.println("State is " + s);
-        });
-        beginStates.forEach(System.out::println);
-        eindStates.forEach(System.out::println);
-
-        for (T beginState : beginStates) {
-            currentState = beginState;
-            // process currentState.
-            System.out.println(beginState);
-        }
-        return false;
-    }
 }
