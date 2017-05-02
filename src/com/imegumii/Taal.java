@@ -15,4 +15,9 @@ public class Taal {
     public SortedSet<String> getSymbols() {
         return symbols;
     }
+
+    @Override
+    public String toString() {
+        return symbols.toString();
+    }
 }

@@ -69,18 +69,50 @@ public class Main {
         P1Opdracht1(stringsToParse);
     }
 
+    public static void Practicum2()
+    {
+        RegExp a = new RegExp("a");
+        RegExp b = new RegExp("b");
+
+        // expr1: "baa"
+        RegExp expr1 = new RegExp("baa");
+        // expr2: "bb"
+        RegExp expr2 = new RegExp("bb");
+        // expr3: "baa | baa"
+        RegExp expr3 = expr1.of(expr2);
+
+        // all: "(a|b)*"
+        RegExp all = (a.of(b)).ster();
+
+        // expr4: "(baa | baa)+"
+        RegExp expr4 = expr3.plus();
+        // expr5: "(baa | baa)+ (a|b)*"
+        RegExp expr5 = expr4.punt(all);
+
+        System.out.println("taal van (baa):\n" + expr1.getTaal(5));
+        System.out.println("taal van (bb):\n" + expr2.getTaal(5));
+        System.out.println("taal van (baa | bb):\n" + expr3.getTaal(5));
+
+        System.out.println("taal van (a|b)*:\n" + all.getTaal(5));
+        System.out.println("taal van (baa | bb)+:\n" + expr4.getTaal(5));
+        System.out.println("taal van (baa | bb)+ (a|b)*:\n" + expr5.getTaal(6));
+
+    }
+
     public static void main(String[] args) {
 //        System.out.println("Here my code be");
 //        com.imegumii.codevandocent.Automata<String> t1 = TestAutomata.getExampleSlide8Lesson2();
 //        t1.printTransitions();
 
-        TestRegExp testreg = new TestRegExp();
-        testreg.testLanguage();
+//        TestRegExp testreg = new TestRegExp();
+//        testreg.testLanguage();
 
 
         System.out.println("Zo moet het dus, nu onze beurt.");
 
 //        Practicum1();
+
+        Practicum2();
 
     }
 }
