@@ -1,7 +1,10 @@
 package com.imegumii;
 
+import com.sun.source.util.Trees;
+
 import java.util.Iterator;
 import java.util.SortedSet;
+import java.util.TreeSet;
 
 /**
  * Created by imegumii on 01/05/2017.
@@ -12,11 +15,11 @@ public class DFA<T extends Comparable> extends Automata<T> {
         super(symbols);
     }
 
-    public DFA(SortedSet symbols) {
+    public DFA(SortedSet<Character> symbols) {
         super(symbols);
     }
 
-    boolean accepteer(String s) {
+    public boolean accepteer(String s) {
         // bij een DFA is er maar een beginstate, dus gebruiken we first.
         T beginState = this.beginStates.first();
         T currentState = beginState;
@@ -40,7 +43,28 @@ public class DFA<T extends Comparable> extends Automata<T> {
         return this.eindStates.contains(currentState);
     }
 
-    void geefTaalTotLengte(int n) {
+    private TreeSet<String> addSymbols(int n, TreeSet<String> tempSet) {
+        TreeSet<String> tempGenerated = new TreeSet<>(tempSet);
+        if (n == 0) {
+            return tempGenerated;
+        }
 
+        for(String s : tempSet) {
+            for(Character c : this.symbols) {
+                tempGenerated.add(s + c);
+            }
+        }
+
+        tempGenerated.addAll(addSymbols(n - 1, tempGenerated));
+
+        return tempGenerated;
+    }
+
+    public Taal geefTaalTotLengte(int n) {
+        TreeSet<String> taal = new TreeSet<>();
+        for (Character c : this.symbols) {
+            taal.add("" + c);
+        }
+        return new Taal(addSymbols(n - 1, taal));
     }
 }

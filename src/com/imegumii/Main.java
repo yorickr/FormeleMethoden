@@ -6,19 +6,10 @@ import java.util.TreeSet;
 
 public class Main {
 
-    public static void Practicum1Opdr1() {
-        TreeSet<String> stringsToParse = new TreeSet<>();
-        stringsToParse.add("abbaa");
-        stringsToParse.add("babaa");
-        stringsToParse.add("abbaaabaab");
-        stringsToParse.add("abaab");
-        stringsToParse.add("aaaabba");
-        stringsToParse.add("baab");
-        stringsToParse.add("baaba");
-        stringsToParse.add("baabaabba");
-
+    public static void P1Opdracht1(TreeSet<String> stringsToParse) {
         Character [] characters = {'a', 'b'};
         DFA<String> myAutomata = new DFA<String>(characters);
+
         // AAB
         myAutomata.addTransition(new Transition<String>("q0", 'a', "q1"));
 
@@ -50,16 +41,32 @@ public class Main {
         myAutomata.defineAsEndState("q7");
 
         myAutomata.printTransitions();
-        final long[] totalTime = {0};
-        stringsToParse.forEach((s) -> {
+        final long[] startTime = {System.currentTimeMillis()};
+        myAutomata.geefTaalTotLengte(10).getSymbols().forEach((s) -> {
             long before = System.currentTimeMillis();
             boolean result = myAutomata.accepteer(s);
             long after = System.currentTimeMillis();
             long delta = (after-before);
             System.out.println("string " + s + " fully parsed, result: " + result + " , it took " + delta + " ms");
-            totalTime[0] += delta;
+            startTime[0] += delta;
         });
-        System.out.println(totalTime[0]);
+        System.out.println((System.currentTimeMillis() - startTime[0]));
+    }
+
+    public static void Practicum1() {
+        TreeSet<String> stringsToParse = new TreeSet<>();
+        stringsToParse.add("abbaa");
+        stringsToParse.add("babaa");
+        stringsToParse.add("abbaaabaab");
+        stringsToParse.add("abaab");
+        stringsToParse.add("aaaabba");
+        stringsToParse.add("baab");
+        stringsToParse.add("baaba");
+        stringsToParse.add("baabaabba");
+        stringsToParse.add("aaaaabb"); // this is wrong, something is wrong
+
+
+        P1Opdracht1(stringsToParse);
     }
 
     public static void main(String[] args) {
@@ -68,7 +75,7 @@ public class Main {
 //        t1.printTransitions();
         System.out.println("Zo moet het dus, nu onze beurt.");
 
-        Practicum1Opdr1();
+        Practicum1();
 
     }
 }

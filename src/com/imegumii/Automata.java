@@ -16,7 +16,7 @@ public class Automata <T extends Comparable> {
     protected SortedSet<T> beginStates;
     protected SortedSet<T> eindStates;
 
-    private SortedSet<Character> symbols;
+    protected SortedSet<Character> symbols;
 
     public Automata(Character [] symbols) {
         this(new TreeSet<Character>(Arrays.asList(symbols)));
