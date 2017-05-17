@@ -53,4 +53,14 @@ public class Automata <T extends Comparable> {
 
     }
 
+    public void clearEindStates()
+    {
+        eindStates.clear();
+    }
+
+    public void clearBeginStates()
+    {
+        beginStates.clear();
+    }
+
 }

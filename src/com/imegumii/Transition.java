@@ -5,6 +5,7 @@ package com.imegumii;
  */
 public class Transition <T extends Comparable> implements Comparable<Transition<T>> {
     public static final char ENDCHAR = '$';
+    public static final char EPSILON = 'ε';
 
     public T vanState;
     public char symbol;

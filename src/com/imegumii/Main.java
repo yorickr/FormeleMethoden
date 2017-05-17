@@ -99,6 +99,23 @@ public class Main {
 
     }
 
+
+    public static void Thompson()
+    {
+        RegExp expr1 = new RegExp("a");
+        RegExp expr2 = new RegExp("b");
+        RegExp expr3 = new RegExp("c");
+        RegExp expr4 = new RegExp("d");
+
+        RegExp expr5 = expr1.ster();
+        RegExp expr6 = expr3.plus();
+
+        RegExp expr7 = expr5.punt(expr6);
+
+        NDFA<String> test = ThompsonConverter.Convert(expr7);
+        test.printTransitions();
+    }
+
     public static void main(String[] args) {
 //        System.out.println("Here my code be");
 //        com.imegumii.codevandocent.Automata<String> t1 = TestAutomata.getExampleSlide8Lesson2();
@@ -112,7 +129,8 @@ public class Main {
 
 //        Practicum1();
 
-        Practicum2();
+//        Practicum2();
 
+        Thompson();
     }
 }
