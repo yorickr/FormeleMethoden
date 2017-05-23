@@ -41,6 +41,7 @@ public class Main {
         myAutomata.defineAsEndState("q7");
 
         myAutomata.printTransitions();
+
         final long[] startTime = {System.currentTimeMillis()};
         myAutomata.geefTaalTotLengte(10).getSymbols().forEach((s) -> {
             long before = System.currentTimeMillis();
@@ -110,11 +111,33 @@ public class Main {
 
         RegExp expr7 = expr5.punt(expr6);
 
-        RegExp expr8 = expr7.ster();
-
-        NDFA<String> test = ThompsonConverter.Convert(expr8);
+        NDFA<String> test = ThompsonConverter.Convert(expr7);
 
         System.out.println(Graph.generateGraphString(test));
+    }
+
+    public static void ReverseAutomata()
+    {
+        Character [] characters = {'a', 'b'};
+        DFA<String> myAutomata = new DFA<String>(characters);
+
+        // AAB
+        myAutomata.addTransition(new Transition<String>("q0", 'a', "q1"));
+        //myAutomata.addTransition(new Transition<String>("q0", 'b', "q1"));
+
+        //myAutomata.addTransition(new Transition<String>("q1", 'a', "q0"));
+        myAutomata.addTransition(new Transition<String>("q1", 'b', "q0"));
+
+        myAutomata.defineAsEndState("q1");
+        myAutomata.defineAsStartState("q0");
+
+        System.out.println(Graph.generateGraphString(myAutomata));
+
+        System.out.println("\nREVERSE:");
+
+        DFA<String> reverseAutomata = myAutomata.Reverse();
+
+        System.out.println(Graph.generateGraphString(reverseAutomata));
     }
 
     public static void Practicum4() {
@@ -155,6 +178,8 @@ public class Main {
 
 //        Practicum2();
 
-        Practicum4();
+//        Practicum4();
+
+        ReverseAutomata();
     }
 }
