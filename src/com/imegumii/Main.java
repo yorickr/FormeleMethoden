@@ -105,13 +105,16 @@ public class Main {
         RegExp expr3 = new RegExp("c");
         RegExp expr4 = new RegExp("d");
 
-        RegExp expr5 = expr1.ster();
-        RegExp expr6 = expr3.plus();
+        RegExp expr5 = expr1.of(expr2);
+        RegExp expr6 = expr3.of(expr4);
 
         RegExp expr7 = expr5.punt(expr6);
 
-        NDFA<String> test = ThompsonConverter.Convert(expr7);
-        test.printTransitions();
+        RegExp expr8 = expr7.ster();
+
+        NDFA<String> test = ThompsonConverter.Convert(expr8);
+
+        System.out.println(Graph.generateGraphString(test));
     }
 
     public static void Practicum4() {
@@ -146,7 +149,7 @@ public class Main {
 //        testreg.testLanguage();
 
 
-        System.out.println("Zo moet het dus, nu onze beurt.");
+//        System.out.println("Zo moet het dus, nu onze beurt.");
 
 //        Practicum1();
 
