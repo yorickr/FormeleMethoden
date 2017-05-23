@@ -99,9 +99,7 @@ public class Main {
 
     }
 
-
-    public static void Thompson()
-    {
+    public static void Thompson() {
         RegExp expr1 = new RegExp("a");
         RegExp expr2 = new RegExp("b");
         RegExp expr3 = new RegExp("c");
@@ -114,6 +112,29 @@ public class Main {
 
         NDFA<String> test = ThompsonConverter.Convert(expr7);
         test.printTransitions();
+    }
+
+    public static void Practicum4() {
+        Character [] characters = {'a', 'b'};
+        NDFA<String> myAutomata = new NDFA<String>(characters);
+
+        myAutomata.addTransition(new Transition<String>("0", 'a', "1"));
+        myAutomata.addTransition(new Transition<String>("0", 'a', "2"));
+        myAutomata.addTransition(new Transition<String>("1", 'a', "1"));
+        myAutomata.addTransition(new Transition<String>("1", 'a', "2"));
+        myAutomata.addTransition(new Transition<String>("2", 'b', "1"));
+        myAutomata.addTransition(new Transition<String>("2", 'b', "3"));
+        myAutomata.addTransition(new Transition<String>("3", 'a', "2"));
+        myAutomata.addTransition(new Transition<String>("3", 'a', "1"));
+
+        myAutomata.defineAsStartState("0");
+        myAutomata.defineAsEndState("1");
+        System.out.println("De NDFA is ");
+        myAutomata.printTransitions();
+
+        System.out.println("DFA is dan ");
+        myAutomata.toDFA().printTransitions();
+
     }
 
     public static void main(String[] args) {
@@ -131,6 +152,6 @@ public class Main {
 
 //        Practicum2();
 
-        Thompson();
+        Practicum4();
     }
 }
