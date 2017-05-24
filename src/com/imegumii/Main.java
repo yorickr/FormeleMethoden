@@ -118,23 +118,110 @@ public class Main {
         Character [] characters = {'a', 'b'};
         NDFA<String> myAutomata = new NDFA<String>(characters);
 
-        myAutomata.addTransition(new Transition<String>("0", 'a', "1"));
-        myAutomata.addTransition(new Transition<String>("0", 'a', "2"));
-        myAutomata.addTransition(new Transition<String>("1", 'a', "1"));
-        myAutomata.addTransition(new Transition<String>("1", 'a', "2"));
-        myAutomata.addTransition(new Transition<String>("2", 'b', "1"));
-        myAutomata.addTransition(new Transition<String>("2", 'b', "3"));
-        myAutomata.addTransition(new Transition<String>("3", 'a', "2"));
-        myAutomata.addTransition(new Transition<String>("3", 'a', "1"));
+//        myAutomata.addTransition(new Transition<String>("0", 'a', "1"));
+//        myAutomata.addTransition(new Transition<String>("0", 'a', "2"));
+//        myAutomata.addTransition(new Transition<String>("1", 'a', "1"));
+//        myAutomata.addTransition(new Transition<String>("1", 'a', "2"));
+//        myAutomata.addTransition(new Transition<String>("2", 'b', "1"));
+//        myAutomata.addTransition(new Transition<String>("2", 'b', "3"));
+//        myAutomata.addTransition(new Transition<String>("3", 'a', "2"));
+//        myAutomata.addTransition(new Transition<String>("3", 'a', "1"));
+//        myAutomata.defineAsStartState("0");
+//        myAutomata.defineAsEndState("0");
+//        myAutomata.defineAsEndState("1");
 
-        myAutomata.defineAsStartState("0");
-        myAutomata.defineAsEndState("1");
+        // Test 2
+//        myAutomata.addTransition(new Transition<String>("0", 'a', "1"));
+//
+//        myAutomata.addTransition(new Transition<String>("0", 'a', "3"));
+//        myAutomata.addTransition(new Transition<String>("0", 'b', "3"));
+//
+//        myAutomata.addTransition(new Transition<String>("0", 'a', "2"));
+//        myAutomata.addTransition(new Transition<String>("0", 'b', "2"));
+//
+//        myAutomata.addTransition(new Transition<String>("1", 'a', "1"));
+//        myAutomata.addTransition(new Transition<String>("1", 'b', "3"));
+//
+//        myAutomata.addTransition(new Transition<String>("1", 'a', "2"));
+//        myAutomata.addTransition(new Transition<String>("1", 'b', "2"));
+//
+//        myAutomata.addTransition(new Transition<String>("2", 'b', "2"));
+//        myAutomata.addTransition(new Transition<String>("2", 'b', "4"));
+//
+//        myAutomata.addTransition(new Transition<String>("2", 'b', "3")); //ja? Ja.
+//        myAutomata.addTransition(new Transition<String>("3", 'b', "2"));
+//
+//        myAutomata.addTransition(new Transition<String>("3", 'b', "3"));
+//
+//        myAutomata.addTransition(new Transition<String>("3", 'a', "4"));
+//        myAutomata.addTransition(new Transition<String>("3", 'b', "4"));
+//
+//        myAutomata.defineAsStartState("0");
+//        myAutomata.defineAsEndState("1");
+
+        // Test 3
+
+//        myAutomata.addTransition(new Transition<String>("1", 'a', "2"));
+//        myAutomata.addTransition(new Transition<String>("1", 'b', "1"));
+//
+//        myAutomata.addTransition(new Transition<String>("2", 'a', "3"));
+//        myAutomata.addTransition(new Transition<String>("2", 'b', "2"));
+//        myAutomata.addTransition(new Transition<String>("2", Transition.EPSILON, "1"));
+//
+//        myAutomata.addTransition(new Transition<String>("3", 'a', "4"));
+//        myAutomata.addTransition(new Transition<String>("3", 'b', "3"));
+//        myAutomata.addTransition(new Transition<String>("3", Transition.EPSILON, "2"));
+//
+//        myAutomata.addTransition(new Transition<String>("4", 'a', "1"));
+//        myAutomata.addTransition(new Transition<String>("4", 'b', "4"));
+//        myAutomata.addTransition(new Transition<String>("4", Transition.EPSILON, "3"));
+//
+//        myAutomata.defineAsStartState("1");
+//        myAutomata.defineAsEndState("2");
+//        myAutomata.defineAsEndState("3");
+
         System.out.println("De NDFA is ");
         myAutomata.printTransitions();
+        System.out.println("Met als begin en eind states");
+        System.out.println(myAutomata.beginStates);
+        System.out.println(myAutomata.eindStates);
 
         System.out.println("DFA is dan ");
-        myAutomata.toDFA().printTransitions();
+        DFA<String> myDfa = myAutomata.toDFA();
+        myDfa.printTransitions();
+        System.out.println("Met als begin en eind states");
+        System.out.println(myDfa.beginStates);
+        System.out.println(myDfa.eindStates);
 
+    }
+
+    public static void Practicum5 () {
+
+        Character [] characters = {'a', 'b'};
+        DFA<String> myAutomata = new DFA<String>(characters);
+        // Test 4 minimalisatie
+
+        myAutomata.addTransition(new Transition<String>("0", 'a', "0"));
+        myAutomata.addTransition(new Transition<String>("0", 'b', "1"));
+
+        myAutomata.addTransition(new Transition<String>("1", 'a', "0"));
+        myAutomata.addTransition(new Transition<String>("1", 'b', "2"));
+
+        myAutomata.addTransition(new Transition<String>("2", 'a', "0"));
+        myAutomata.addTransition(new Transition<String>("2", 'b', "3"));
+
+        myAutomata.addTransition(new Transition<String>("3", 'a', "4"));
+        myAutomata.addTransition(new Transition<String>("3", 'b', "5"));
+
+        myAutomata.addTransition(new Transition<String>("4", 'a', "5"));
+        myAutomata.addTransition(new Transition<String>("4", 'b', "3"));
+
+        myAutomata.addTransition(new Transition<String>("5", 'a', "0"));
+        myAutomata.addTransition(new Transition<String>("5", 'b', "3"));
+
+        myAutomata.defineAsStartState("0");
+        myAutomata.defineAsEndState("2");
+        myAutomata.defineAsEndState("4");
     }
 
     public static void main(String[] args) {
