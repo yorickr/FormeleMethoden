@@ -65,4 +65,24 @@ public class DFA<T extends Comparable> extends Automata<T> {
         }
         return new Taal(addSymbols(n - 1, taal));
     }
+
+    public DFA<T> Reverse()
+    {
+        DFA<T> reversed = new DFA<T>(this.symbols);
+
+        for(Transition<T> t : transistions)
+        {
+            reversed.addTransition(new Transition<T>(t.naarState, t.symbol, t.vanState));
+        }
+
+        for(T state : eindStates) {
+            reversed.defineAsEndState(state);
+        }
+
+        for(T state : beginStates) {
+            reversed.defineAsStartState(state);
+        }
+
+        return reversed;
+    }
 }
