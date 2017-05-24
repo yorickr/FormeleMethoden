@@ -76,11 +76,11 @@ public class DFA<T extends Comparable> extends Automata<T> {
         }
 
         for(T state : eindStates) {
-            reversed.defineAsEndState(state.toString());
+            reversed.defineAsStartState(state.toString());
         }
 
         for(T state : beginStates) {
-            reversed.defineAsStartState(state.toString());
+            reversed.defineAsEndState(state.toString());
         }
 
         return reversed;
