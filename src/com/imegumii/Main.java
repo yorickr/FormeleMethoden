@@ -135,7 +135,7 @@ public class Main {
 
         System.out.println("\nREVERSE:");
 
-        DFA<String> reverseAutomata = myAutomata.Reverse();
+        NDFA<String> reverseAutomata = myAutomata.Reverse();
 
         System.out.println(Graph.generateGraphString(reverseAutomata));
     }
@@ -248,6 +248,19 @@ public class Main {
         myAutomata.defineAsStartState("0");
         myAutomata.defineAsEndState("2");
         myAutomata.defineAsEndState("4");
+
+        System.out.println("Ongeminimaliseerd krijgen we:");
+        myAutomata.printTransitions();
+        System.out.println("Met als begin en eind states");
+        System.out.println(myAutomata.beginStates);
+        System.out.println(myAutomata.eindStates);
+
+        DFA<String> geminimaliseerd = myAutomata.minimaliseer();
+        System.out.println("Geminimaliseerd krijgen we:");
+        geminimaliseerd.printTransitions();
+        System.out.println("Met als begin en eind states");
+        System.out.println(geminimaliseerd.beginStates);
+        System.out.println(geminimaliseerd.eindStates);
     }
 
     public static void main(String[] args) {
@@ -267,6 +280,8 @@ public class Main {
 
 //        Practicum4();
 
-        ReverseAutomata();
+        Practicum5();
+
+//        ReverseAutomata();
     }
 }
