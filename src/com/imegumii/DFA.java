@@ -66,7 +66,7 @@ public class DFA<T extends Comparable> extends Automata<T> {
         return new Taal(addSymbols(n - 1, taal));
     }
 
-    public NDFA<String> Reverse()
+    public NDFA<String> reverse()
     {
         NDFA<String> reversed = new NDFA<String>(this.symbols);
 
@@ -87,6 +87,6 @@ public class DFA<T extends Comparable> extends Automata<T> {
     }
 
     public DFA<String> minimaliseer() {
-        return this.Reverse().toDFA().Reverse().toDFA();
+        return this.reverse().toDFA().reverse().toDFA();
     }
 }

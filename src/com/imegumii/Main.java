@@ -1,7 +1,5 @@
 package com.imegumii;
 
-import com.imegumii.codevandocent.*;
-
 import java.util.TreeSet;
 
 public class Main {
@@ -111,7 +109,7 @@ public class Main {
 
         RegExp expr7 = expr5.punt(expr6);
 
-        NDFA<String> test = ThompsonConverter.Convert(expr7);
+        NDFA<String> test = ThompsonConverter.convert(expr7);
 
         System.out.println(Graph.generateGraphString(test));
     }
@@ -135,7 +133,7 @@ public class Main {
 
         System.out.println("\nREVERSE:");
 
-        NDFA<String> reverseAutomata = myAutomata.Reverse();
+        NDFA<String> reverseAutomata = myAutomata.reverse();
 
         System.out.println(Graph.generateGraphString(reverseAutomata));
     }

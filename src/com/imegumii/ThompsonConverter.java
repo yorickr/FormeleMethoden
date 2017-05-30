@@ -7,24 +7,24 @@ public class ThompsonConverter {
 
     private static int count = 0;
 
-    public static NDFA<String> Convert(RegExp regex)
+    public static NDFA<String> convert(RegExp regex)
     {
         Character [] characters = {'a', 'b'};
         NDFA generated = new NDFA<String>(characters);
 
-        ConvertStatement(regex, generated);
+        convertStatement(regex, generated);
 
         return generated;
     }
 
-    private static void ConvertStatement(RegExp regex, NDFA automata)
+    private static void convertStatement(RegExp regex, NDFA automata)
     {
         switch(regex.operator)
         {
             case PLUS:
 
                 //Links
-                ConvertStatement(regex.links, automata);
+                convertStatement(regex.links, automata);
                 String endLink1 = (String) automata.eindStates.first();
                 String beginLink1 = (String) automata.beginStates.first();
 
@@ -41,7 +41,7 @@ public class ThompsonConverter {
             case STER:
 
                 //Links
-                ConvertStatement(regex.links, automata);
+                convertStatement(regex.links, automata);
                 String endLink2 = (String) automata.eindStates.first();
                 String beginLink2 = (String) automata.beginStates.first();
 
@@ -65,12 +65,12 @@ public class ThompsonConverter {
             case OF:
 
                 //Links
-                ConvertStatement(regex.links, automata);
+                convertStatement(regex.links, automata);
                 String topEnd = (String) automata.eindStates.first();
                 String topBegin = (String) automata.beginStates.first();
 
                 //Rechts
-                ConvertStatement(regex.rechts, automata);
+                convertStatement(regex.rechts, automata);
                 String bottomBegin = (String) automata.beginStates.first();
                 String bottomEnd = (String) automata.eindStates.first();
 
@@ -95,12 +95,12 @@ public class ThompsonConverter {
             case PUNT:
 
                 //Links
-                ConvertStatement(regex.links, automata);
+                convertStatement(regex.links, automata);
                 String endLink = (String) automata.eindStates.first();
                 String newBeginLink = (String) automata.beginStates.first();
 
                 //Rechts
-                ConvertStatement(regex.rechts, automata);
+                convertStatement(regex.rechts, automata);
                 String beginLink = (String) automata.beginStates.first();
                 String newEndLink = (String) automata.eindStates.first();
 
