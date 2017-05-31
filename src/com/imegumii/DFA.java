@@ -86,31 +86,7 @@ public class DFA<T extends Comparable> extends Automata<T> {
     }
 
     public DFA<String> minimaliseer() {
-//        System.out.println("THIS");
-//        reverse1.print();
-//        System.out.println(Graph.generateGraphString((Automata<String>) this));
-//        System.out.println("-----");
-        NDFA<String> reverse1 = this.reverse();
-//        System.out.println("REVERSE1");
-//        reverse1.print();
-//        System.out.println(Graph.generateGraphString(reverse1));
-//        System.out.println("-----");
-        DFA<String> dfa1 = reverse1.toDFA();
-//        System.out.println("DFA1");
-//        System.out.println(Graph.generateGraphString(dfa1));
-//        dfa1.print();
-//        System.out.println("-----");
-        NDFA<String> reverse2 = dfa1.reverse();
-//        System.out.println("REVERSE2");
-//        System.out.println(Graph.generateGraphString(reverse2));
-//        reverse2.print();
-//        System.out.println("-----");
-        DFA<String> dfa2 = reverse2.toDFA();
-//        System.out.println("DFA2");
-//        System.out.println(Graph.generateGraphString(dfa2));
-//        dfa2.print();
-//        System.out.println("-----");
-        return dfa2;
+        return this.reverse().toDFA().reverse().toDFA();
     }
 
 }

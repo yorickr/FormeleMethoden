@@ -109,7 +109,7 @@ public class Main {
 
         RegExp expr7 = expr5.punt(expr6);
 
-        NDFA<String> test = ThompsonConverter.Convert(expr7);
+        NDFA<String> test = ThompsonConverter.convert(expr7);
 
         System.out.println(Graph.generateGraphString(test));
     }
