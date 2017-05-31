@@ -114,6 +114,69 @@ public class Main {
         System.out.println(Graph.generateGraphString(test));
     }
 
+    public static void Hopcroft()
+    {
+        Character [] characters = {'a', 'b'};
+        DFA<String> automata = new DFA<String>(characters);
+
+
+        automata.addTransition(new Transition<String>("q0", 'a', "q2"));
+        automata.addTransition(new Transition<String>("q0", 'b', "q3"));
+        automata.addTransition(new Transition<String>("q1", 'a', "q3"));
+        automata.addTransition(new Transition<String>("q1", 'b', "q2"));
+        automata.addTransition(new Transition<String>("q2", 'a', "q0"));
+        automata.addTransition(new Transition<String>("q2", 'b', "q4"));
+        automata.addTransition(new Transition<String>("q3", 'a', "q1"));
+        automata.addTransition(new Transition<String>("q3", 'b', "q5"));
+        automata.addTransition(new Transition<String>("q4", 'a', "q6"));
+        automata.addTransition(new Transition<String>("q4", 'b', "q5"));
+        automata.addTransition(new Transition<String>("q5", 'a', "q2"));
+        automata.addTransition(new Transition<String>("q5", 'b', "q0"));
+        automata.addTransition(new Transition<String>("q6", 'a', "q4"));
+        automata.addTransition(new Transition<String>("q6", 'b', "q0"));
+
+        automata.defineAsStartState("q0");
+
+        automata.defineAsEndState("q1");
+        automata.defineAsEndState("q3");
+        automata.defineAsEndState("q4");
+        automata.defineAsEndState("q6");
+
+
+        /*
+        automata.addTransition(new Transition<String>("0", 'a', "0"));
+        automata.addTransition(new Transition<String>("0", 'b', "1"));
+
+        automata.addTransition(new Transition<String>("1", 'a', "2"));
+        automata.addTransition(new Transition<String>("1", 'b', "1"));
+
+        automata.addTransition(new Transition<String>("2", 'a', "0"));
+        automata.addTransition(new Transition<String>("2", 'b', "3"));
+
+        automata.addTransition(new Transition<String>("3", 'a', "4"));
+        automata.addTransition(new Transition<String>("3", 'b', "1"));
+
+        automata.addTransition(new Transition<String>("4", 'a', "5"));
+        automata.addTransition(new Transition<String>("4", 'b', "3"));
+
+        automata.addTransition(new Transition<String>("5", 'a', "0"));
+        automata.addTransition(new Transition<String>("5", 'b', "3"));
+
+        automata.defineAsStartState("0");
+        automata.defineAsEndState("2");
+        automata.defineAsEndState("4");
+        */
+
+        System.out.println("\nNormal automata..");
+        System.out.println(Graph.generateGraphString(automata));
+
+        HopcroftConverter convert = new HopcroftConverter(automata);
+        DFA<String> minimized = convert.minimize();
+
+        System.out.println("\nMinimized automata..");
+        System.out.println(Graph.generateGraphString(minimized));
+    }
+
     public static void ReverseAutomata()
     {
         Character [] characters = {'a', 'b'};
@@ -281,8 +344,10 @@ public class Main {
 
 //        Practicum4();
 
-        Practicum5();
+//        Practicum5();
 
 //        ReverseAutomata();
+
+        Hopcroft();
     }
 }

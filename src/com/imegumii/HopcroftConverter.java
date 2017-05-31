@@ -1,6 +1,7 @@
 package com.imegumii;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
@@ -19,12 +20,27 @@ public class HopcroftConverter {
 
         DFAtoHopcroft();
         updateGroupReferences();
+
+        System.out.println("\nFound " + sets.size() + " sets.");
     }
 
     public DFA<String> minimize()
     {
-        while(splitGroups())
+        int lastround = 0;
+        int newround = 2;
+
+        int count = 0;
+
+        while(lastround != newround) {
+
+            count++;
+            System.out.println("Minimize round " + count + " (" + lastround + "/" + newround + ")");
+
+            lastround = newround;
+            newround = splitGroups(lastround);
+
             updateGroupReferences();
+        }
 
         return HopcrofttoDFA();
     }
@@ -40,7 +56,7 @@ public class HopcroftConverter {
             HopcroftSet currentSet = null;
 
             for(HopcroftSet s : sets) {
-                if (t.vanState == s.state) {
+                if (t.vanState.equals(s.state)) {
                     found = true;
                     currentSet = s;
                     break;
@@ -50,11 +66,12 @@ public class HopcroftConverter {
             if(!found) {
                 String groupName = beginGroup;
                 boolean endState = false;
-                if(automata.eindStates.contains(t.vanState)) {
+                if(automata.eindStates.contains((String)t.vanState)) {
                     groupName = endGroup;
                     endState = true;
                 }
                 currentSet = new HopcroftSet(groupName, (String)t.vanState, endState);
+                sets.add(currentSet);
             }
 
             if(t.symbol == 'a')
@@ -106,32 +123,57 @@ public class HopcroftConverter {
         }
     }
 
-    private boolean splitGroups()
+    private int splitGroups(int oldsize)
     {
-        int splitCount = 0;
+        HashMap<String, ArrayList<HopcroftSet>> groups = new HashMap<String, ArrayList<HopcroftSet>>();
 
+        for(HopcroftSet s : sets)
+        {
+            String key = s.group + s.transitionAGroup + s.transitionBGroup;
 
+            if(!groups.containsKey(key))
+            {
+                groups.put(key, new ArrayList<HopcroftSet>());
+            }
 
+            groups.get(key).add(s);
+        }
 
+        if(oldsize == groups.size())
+            return oldsize;
 
-        if(splitCount == 0)
-            return false;
+        sets.clear();
 
-        return true;
+        for(ArrayList<HopcroftSet> arr : groups.values())
+        {
+            String newGroupName = getGroupName();
+
+            for(HopcroftSet ns : arr)
+            {
+                ns.group = newGroupName;
+                sets.add(ns);
+            }
+        }
+
+        return groups.size();
     }
 
 
-    private int count = 0;
+    private int count = -1;
+    private String[] alphabet = {"A", "B", "C", "D", "E", "F", "G","H","I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"};
 
     private String getGroupName()
     {
         count++;
-        return "G" + count;
+        if(count >= alphabet.length)
+            count = 0;
+
+        return alphabet[count];
     }
 
 }
 
-class HopcroftSet {
+class HopcroftSet implements Comparable<HopcroftSet>{
 
     public String group;
     public String state;
@@ -149,5 +191,16 @@ class HopcroftSet {
         this.group = group;
         this.state = state;
         this.isEndState = isEndState;
+    }
+
+    @Override
+    public int compareTo(HopcroftSet o) {
+        return (this.group + this.state).compareTo(o.group + o.state);
+    }
+
+    @Override
+    public String toString()
+    {
+        return group + " " + state + " | " + transitionAState + " " + transitionAGroup + " | " + transitionBState + " " + transitionBGroup + " " + (isEndState?"*":"");
     }
 }
