@@ -264,11 +264,14 @@ public class Main {
         System.out.println("Ongeminimaliseerd krijgen we:");
         myAutomata.print();
         System.out.println("-------");
+        Graph.generateImage(myAutomata, null);
 
         DFA<String> geminimaliseerd = myAutomata.minimaliseer();
         System.out.println("Geminimaliseerd krijgen we:");
         geminimaliseerd.print();
         System.out.println("------");
+        Graph.generateImage(geminimaliseerd, null);
+        geminimaliseerd.ontkenning();
     }
 
     public static void main(String[] args) {

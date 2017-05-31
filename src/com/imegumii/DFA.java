@@ -89,4 +89,31 @@ public class DFA<T extends Comparable> extends Automata<T> {
         return this.reverse().toDFA().reverse().toDFA();
     }
 
+    public DFA<T> ontkenning() {
+        DFA<T> returnDFA = new DFA<T>(this.symbols);
+
+        SortedSet<T> newEndStates = new TreeSet<>();
+
+        for (T state : this.states) {
+            if (!this.eindStates.contains(state)) {
+                newEndStates.add(state);
+            }
+        }
+
+        for (T newEndState : newEndStates) {
+            returnDFA.defineAsEndState(newEndState);
+        }
+
+        for (T beginState : this.beginStates) {
+            returnDFA.defineAsStartState(beginState);
+        }
+
+        for (Transition<T> transistion : this.transistions) {
+            returnDFA.addTransition(transistion);
+        }
+
+        return returnDFA;
+    }
+
+    //TODO: add and & or operations
 }

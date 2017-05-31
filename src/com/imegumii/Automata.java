@@ -72,4 +72,12 @@ public class Automata <T extends Comparable> {
         beginStates.clear();
     }
 
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        for (T state : this.states) {
+            sb.append(state);
+        }
+        return "Automata" + sb.toString();
+    }
 }
