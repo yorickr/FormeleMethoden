@@ -272,16 +272,6 @@ public class Main {
     }
 
     public static void main(String[] args) {
-//        System.out.println("Here my code be");
-//        com.imegumii.codevandocent.Automata<String> t1 = TestAutomata.getExampleSlide8Lesson2();
-//        t1.printTransitions();
-
-//        TestRegExp testreg = new TestRegExp();
-//        testreg.testLanguage();
-
-
-//        System.out.println("Zo moet het dus, nu onze beurt.");
-
 //        Practicum1();
 
 //        Practicum2();
