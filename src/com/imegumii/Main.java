@@ -1,7 +1,5 @@
 package com.imegumii;
 
-import com.imegumii.codevandocent.*;
-
 import java.util.TreeSet;
 
 public class Main {
@@ -122,22 +120,36 @@ public class Main {
         DFA<String> myAutomata = new DFA<String>(characters);
 
         // AAB
-        myAutomata.addTransition(new Transition<String>("q0", 'a', "q1"));
-        //myAutomata.addTransition(new Transition<String>("q0", 'b', "q1"));
+        myAutomata.addTransition(new Transition<String>("0", 'a', "0"));
+        myAutomata.addTransition(new Transition<String>("0", 'b', "1"));
 
-        //myAutomata.addTransition(new Transition<String>("q1", 'a', "q0"));
-        myAutomata.addTransition(new Transition<String>("q1", 'b', "q0"));
+        myAutomata.addTransition(new Transition<String>("1", 'a', "0"));
+        myAutomata.addTransition(new Transition<String>("1", 'b', "2"));
 
-        myAutomata.defineAsEndState("q1");
-        myAutomata.defineAsStartState("q0");
+        myAutomata.addTransition(new Transition<String>("2", 'a', "0"));
+        myAutomata.addTransition(new Transition<String>("2", 'b', "2"));
 
-        System.out.println(Graph.generateGraphString(myAutomata));
+        myAutomata.defineAsStartState("0");
+        myAutomata.defineAsEndState("2");
 
-        System.out.println("\nREVERSE:");
+//        System.out.println(Graph.generateGraphString(myAutomata));
 
-        NDFA<String> reverseAutomata = myAutomata.Reverse();
+//        System.out.println("\nREVERSE:");
 
-        System.out.println(Graph.generateGraphString(reverseAutomata));
+        NDFA<String> reverseAutomata = myAutomata.reverse();
+
+//        System.out.println(Graph.generateGraphString(reverseAutomata));
+
+        System.out.println("ORIGINEEL");
+        myAutomata.printTransitions();
+        System.out.println("MET BEGIN EN EIND");
+        System.out.println(myAutomata.beginStates);
+        System.out.println(myAutomata.eindStates);
+        System.out.println("REVERSE");
+        reverseAutomata.printTransitions();
+        System.out.println("MET BEGIN EN EIND");
+        System.out.println(reverseAutomata.beginStates);
+        System.out.println(reverseAutomata.eindStates);
     }
 
     public static void Practicum4() {
@@ -230,14 +242,14 @@ public class Main {
         myAutomata.addTransition(new Transition<String>("0", 'a', "0"));
         myAutomata.addTransition(new Transition<String>("0", 'b', "1"));
 
-        myAutomata.addTransition(new Transition<String>("1", 'a', "0"));
-        myAutomata.addTransition(new Transition<String>("1", 'b', "2"));
+        myAutomata.addTransition(new Transition<String>("1", 'a', "2"));
+        myAutomata.addTransition(new Transition<String>("1", 'b', "1"));
 
         myAutomata.addTransition(new Transition<String>("2", 'a', "0"));
         myAutomata.addTransition(new Transition<String>("2", 'b', "3"));
 
         myAutomata.addTransition(new Transition<String>("3", 'a', "4"));
-        myAutomata.addTransition(new Transition<String>("3", 'b', "5"));
+        myAutomata.addTransition(new Transition<String>("3", 'b', "1"));
 
         myAutomata.addTransition(new Transition<String>("4", 'a', "5"));
         myAutomata.addTransition(new Transition<String>("4", 'b', "3"));
@@ -250,17 +262,13 @@ public class Main {
         myAutomata.defineAsEndState("4");
 
         System.out.println("Ongeminimaliseerd krijgen we:");
-        myAutomata.printTransitions();
-        System.out.println("Met als begin en eind states");
-        System.out.println(myAutomata.beginStates);
-        System.out.println(myAutomata.eindStates);
+        myAutomata.print();
+        System.out.println("-------");
 
         DFA<String> geminimaliseerd = myAutomata.minimaliseer();
         System.out.println("Geminimaliseerd krijgen we:");
-        geminimaliseerd.printTransitions();
-        System.out.println("Met als begin en eind states");
-        System.out.println(geminimaliseerd.beginStates);
-        System.out.println(geminimaliseerd.eindStates);
+        geminimaliseerd.print();
+        System.out.println("------");
     }
 
     public static void main(String[] args) {

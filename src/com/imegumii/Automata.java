@@ -53,6 +53,15 @@ public class Automata <T extends Comparable> {
 
     }
 
+    public void print() {
+        System.out.println("Transitions");
+        this.printTransitions();
+        System.out.println("Beginstates");
+        System.out.println(beginStates);
+        System.out.println("Eindstates");
+        System.out.println(eindStates);
+    }
+
     public void clearEindStates()
     {
         eindStates.clear();

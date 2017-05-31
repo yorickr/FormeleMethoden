@@ -1,6 +1,5 @@
 package com.imegumii;
 
-import java.util.Iterator;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
@@ -66,7 +65,7 @@ public class DFA<T extends Comparable> extends Automata<T> {
         return new Taal(addSymbols(n - 1, taal));
     }
 
-    public NDFA<String> Reverse()
+    public NDFA<String> reverse()
     {
         NDFA<String> reversed = new NDFA<String>(this.symbols);
 
@@ -87,6 +86,31 @@ public class DFA<T extends Comparable> extends Automata<T> {
     }
 
     public DFA<String> minimaliseer() {
-        return this.Reverse().toDFA().Reverse().toDFA();
+//        System.out.println("THIS");
+//        reverse1.print();
+//        System.out.println(Graph.generateGraphString((Automata<String>) this));
+//        System.out.println("-----");
+        NDFA<String> reverse1 = this.reverse();
+//        System.out.println("REVERSE1");
+//        reverse1.print();
+//        System.out.println(Graph.generateGraphString(reverse1));
+//        System.out.println("-----");
+        DFA<String> dfa1 = reverse1.toDFA();
+//        System.out.println("DFA1");
+//        System.out.println(Graph.generateGraphString(dfa1));
+//        dfa1.print();
+//        System.out.println("-----");
+        NDFA<String> reverse2 = dfa1.reverse();
+//        System.out.println("REVERSE2");
+//        System.out.println(Graph.generateGraphString(reverse2));
+//        reverse2.print();
+//        System.out.println("-----");
+        DFA<String> dfa2 = reverse2.toDFA();
+//        System.out.println("DFA2");
+//        System.out.println(Graph.generateGraphString(dfa2));
+//        dfa2.print();
+//        System.out.println("-----");
+        return dfa2;
     }
+
 }

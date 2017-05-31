@@ -21,9 +21,12 @@ public class NDFA<T extends Comparable> extends Automata<T> {
         while(it.hasNext()) {
             Transition<T> t = it.next();
 
-            if (t.vanState == vanaf) {
+//            System.out.println(t);
+            if (vanaf.equals(t.vanState)) {
+//                System.out.println("Dit is onze staat");
                 boolean isGelijk = false;
                 isGelijk = s == t.symbol;
+//                System.out.println("Zijn symbolen gelijk? " + isGelijk);
 
                 if (isGelijk && !bereikbaar.contains(t.naarState)) {
                     bereikbaar.add(t.naarState);
@@ -40,9 +43,12 @@ public class NDFA<T extends Comparable> extends Automata<T> {
         DFA<String> eindDFA = new DFA<>(this.symbols);
 
         SortedSet<T> startSet = new TreeSet<T>();
-        T firstState = this.beginStates.first();
-        startSet.add(firstState);
-        startSet.addAll(statesBereikbaarVanaf(firstState, Transition.EPSILON));
+        //er kunnen meer start states zijn,
+        // een NDFA kan namelijk meerdere start states hebben (die met epsilon overgangen dan toch naar 1 state gewerkt kunnen worden)
+        for (T t : this.beginStates) {
+            startSet.add(t);
+            startSet.addAll(statesBereikbaarVanaf(t, Transition.EPSILON));
+        }
 //        System.out.println("Begin states zijn: ");
 //        startSet.forEach(System.out::println);
 
@@ -70,6 +76,7 @@ public class NDFA<T extends Comparable> extends Automata<T> {
                 boolean isBeginState = stateCounter == 1;
                 for (T t : set) {
                     // kijk wat er te bereiken is vanaf t
+//                    System.out.println("Bereikbaar vanaf T "+ t + " en s " + symbol + " is");
                     SortedSet<T> bereikbareStates = statesBereikbaarVanaf(t, symbol);
 //                    System.out.println("Vanaf " + t + " kan ik bij " + bereikbareStates + " komen via " + symbol);
                     totaalTeBereiken.addAll(bereikbareStates);
