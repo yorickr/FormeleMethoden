@@ -390,6 +390,15 @@ public class Main {
         System.out.println(Graph.generateGraphString(of));
     }
 
+    public static void FileReadTest()
+    {
+        DFA<String> dfa1 = FileParser.readDFA("dfa1");
+        System.out.println(Graph.generateGraphString(dfa1));
+
+        NDFA<String> ndfa1 = FileParser.readNDFA("ndfa1");
+        System.out.println(Graph.generateGraphString(ndfa1));
+    }
+
     public static void main(String[] args) {
 //        Practicum1();
 
@@ -403,6 +412,8 @@ public class Main {
 
 //        Hopcroft();
 
-        TupleConstructie();
+//        TupleConstructie();
+
+        FileReadTest();
     }
 }
