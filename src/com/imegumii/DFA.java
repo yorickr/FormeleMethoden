@@ -1,7 +1,9 @@
 package com.imegumii;
 
+import java.util.Iterator;
 import java.util.SortedSet;
 import java.util.TreeSet;
+import javafx.util.Pair;
 
 /**
  * Created by imegumii on 01/05/2017.
@@ -115,5 +117,66 @@ public class DFA<T extends Comparable> extends Automata<T> {
         return returnDFA;
     }
 
-    //TODO: add and & or operations
+    public DFA<String> en(DFA<T> other)
+    {
+        return maakTupleDFA((DFA<String>)this, (DFA<String>)other, false);
+    }
+
+    public DFA<String> of(DFA<T> other)
+    {
+        return maakTupleDFA((DFA<String>)this, (DFA<String>)other, true);
+    }
+
+    private DFA<String> maakTupleDFA(DFA<String> dfa1, DFA<String> dfa2, boolean of)
+    {
+        DFA<String> merged = new DFA<String>(dfa1.symbols);
+
+        //Create all transitions and states
+        for(Transition t1 : dfa1.transistions)
+        {
+            for(Transition t2 : dfa2.transistions)
+            {
+                if(t1.symbol == t2.symbol) {
+                    Transition t3 = new Transition<String>(t1.vanState + "-" + t2.vanState, t1.symbol, t1.naarState + "-" + t2.naarState);
+
+                    if(dfa1.beginStates.contains(t1.vanState) && dfa2.beginStates.contains(t2.vanState))
+                        merged.defineAsStartState((String)t3.vanState);
+
+                    if(of)
+                    {
+                        if(dfa1.eindStates.contains(t1.vanState) || dfa2.eindStates.contains(t2.vanState))
+                            merged.defineAsEndState((String)t3.vanState);
+                    }
+                    else
+                    {
+                        if(dfa1.eindStates.contains(t1.vanState) && dfa2.eindStates.contains(t2.vanState))
+                            merged.defineAsEndState((String)t3.vanState);
+                    }
+
+                    merged.addTransition(t3);
+                }
+            }
+        }
+
+        //Delete wrong states
+        SortedSet<String> usedStates = new TreeSet<String>();
+        for(Transition t : merged.transistions)
+        {
+            usedStates.add((String)t.naarState);
+        }
+
+        Iterator<Transition<String>> it = merged.transistions.iterator();
+
+        while(it.hasNext())
+        {
+            Transition<String> t = it.next();
+
+            if(!usedStates.contains(t.vanState))
+            {
+                it.remove();
+            }
+        }
+
+        return merged;
+    }
 }

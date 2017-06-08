@@ -1,5 +1,7 @@
 package com.imegumii;
 
+import jdk.nashorn.internal.runtime.regexp.joni.Regex;
+
 import java.util.TreeSet;
 
 public class Main {
@@ -174,7 +176,7 @@ public class Main {
         DFA<String> minimized = convert.minimize();
 
         System.out.println("\nMinimized automata..");
-        System.out.println(Graph.generateGraphString(minimized));
+        Graph.generateImage(minimized, null);
     }
 
     public static void ReverseAutomata()
@@ -337,6 +339,57 @@ public class Main {
         geminimaliseerd.ontkenning();
     }
 
+    public static void TupleConstructie()
+    {
+        Character [] characters = {'a', 'b'};
+        DFA<String> aut1 = new DFA<String>(characters);
+
+        aut1.addTransition(new Transition<String>("1", 'a', "2"));
+        aut1.addTransition(new Transition<String>("1", 'b', "1"));
+
+        aut1.addTransition(new Transition<String>("2", 'a', "1"));
+        aut1.addTransition(new Transition<String>("2", 'b', "2"));
+
+
+        aut1.defineAsStartState("1");
+        aut1.defineAsEndState("1");
+
+        System.out.println("\n\nA1\n--------");
+        System.out.println(Graph.generateGraphString(aut1));
+
+
+        DFA<String> aut2 = new DFA<String>(characters);
+
+        aut2.addTransition(new Transition<String>("1", 'a', "1"));
+        aut2.addTransition(new Transition<String>("1", 'b', "2"));
+
+        aut2.addTransition(new Transition<String>("2", 'a', "1"));
+        aut2.addTransition(new Transition<String>("2", 'b', "3"));
+
+        aut2.addTransition(new Transition<String>("3", 'a', "1"));
+        aut2.addTransition(new Transition<String>("3", 'b', "4"));
+
+        aut2.addTransition(new Transition<String>("4", 'a', "4"));
+        aut2.addTransition(new Transition<String>("4", 'b', "4"));
+
+        aut2.defineAsStartState("1");
+        aut2.defineAsEndState("1");
+        aut2.defineAsEndState("2");
+
+        System.out.println("\n\nA2\n--------");
+        System.out.println(Graph.generateGraphString(aut2));
+
+        DFA<String> en = aut1.en(aut2);
+
+        System.out.println("\n\nEN\n--------");
+        System.out.println(Graph.generateGraphString(en));
+
+        DFA<String> of = aut1.of(aut2);
+
+        System.out.println("\n\nOF\n--------");
+        System.out.println(Graph.generateGraphString(of));
+    }
+
     public static void main(String[] args) {
 //        Practicum1();
 
@@ -348,6 +401,8 @@ public class Main {
 
 //        ReverseAutomata();
 
-        Hopcroft();
+//        Hopcroft();
+
+        TupleConstructie();
     }
 }
