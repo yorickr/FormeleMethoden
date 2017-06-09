@@ -1,10 +1,29 @@
 package com.imegumii;
 
-import com.imegumii.ui.Frame;
-
 import java.util.TreeSet;
 
-public class Main {
+/**
+ * Created by kenny on 8-6-2017.
+ */
+public class Test {
+    public static void test()
+    {
+        //        Practicum1();
+
+//        Practicum2();
+
+//        Practicum4();
+
+//        Practicum5();
+
+//        ReverseAutomata();
+
+//        Hopcroft();
+
+        TupleConstructie();
+
+//        FileReadTest();
+    }
 
     public static void P1Opdracht1(TreeSet<String> stringsToParse) {
         Character [] characters = {'a', 'b'};
@@ -176,7 +195,7 @@ public class Main {
         DFA<String> minimized = convert.minimize();
 
         System.out.println("\nMinimized automata..");
-        System.out.println(Graph.generateGraphString(minimized));
+        Graph.generateImage(minimized, null);
     }
 
     public static void ReverseAutomata()
@@ -339,103 +358,58 @@ public class Main {
         geminimaliseerd.ontkenning();
     }
 
-    public static void TestUitOpdrachtBeschrijving() {
+    public static void TupleConstructie()
+    {
         Character [] characters = {'a', 'b'};
-        NDFA<String> ndfa = new NDFA<String>(characters);
+        DFA<String> aut1 = new DFA<String>(characters);
 
-        ndfa.addTransition(new Transition<String>("q0", 'a', "q1"));
+        aut1.addTransition(new Transition<String>("1", 'a', "2"));
+        aut1.addTransition(new Transition<String>("1", 'b', "1"));
 
-        ndfa.addTransition(new Transition<String>("q1", 'b', "q2"));
-        ndfa.addTransition(new Transition<String>("q1", 'b', "q0"));
-
-        ndfa.addTransition(new Transition<String>("q2", 'a', "q0"));
-        ndfa.addTransition(new Transition<String>("q2", 'a', "q3"));
-
-        ndfa.addTransition(new Transition<String>("q3", 'a', "q4"));
-
-        ndfa.defineAsStartState("q0");
-
-        ndfa.defineAsEndState("q0");
-        ndfa.defineAsEndState("q4");
-
-        Graph.generateImage(ndfa, "Ndfa");
-
-        DFA<String> dfa = ndfa.toDFA();
-
-        Graph.generateImage(dfa, "Dfa");
-
-    }
-
-    public static void traverseRegExp(RegExp r) {
-        if (r == null) {
-            return;
-        }
-        System.out.println(r);
-        System.out.println("Printing left ");
-        traverseRegExp(r.links);
-        System.out.println("Printing right");
-        traverseRegExp(r.rechts);
-        System.out.println("----");
-    }
-
-    public static int aantalOperators(RegExp r, int i) {
-        if (r != null) {
-            if (r.links != null) {
-                i++;
-                i = aantalOperators(r.links, i);
-            }
-            if (r.rechts != null) {
-                i++;
-                i = aantalOperators(r.rechts, i);
-            }
-        }
-
-        return i;
-    }
-
-    public static void main(String[] args) {
-//        Test.test();
-
-//        Hopcroft();
-//        TestUitOpdrachtBeschrijving();
-
-        String s = "a*(aa+ |ba*b ) * (abba|baab|bbbb)+";
+        aut1.addTransition(new Transition<String>("2", 'a', "1"));
+        aut1.addTransition(new Transition<String>("2", 'b', "2"));
 
 
-        String s2 = "a(a+ | b*((a|b)+))";
-        String s3 = "(a|b)+a";
+        aut1.defineAsStartState("1");
+        aut1.defineAsEndState("1");
 
-        String s4 = "a+((ab)*b|ab|(b)*bb)+(abba|baab)+";
-        String s5 = "((ab)*b(a|b)|ab|(b)*bb)+";
+        System.out.println("\n\nA1\n--------");
+        System.out.println(Graph.generateImageString(aut1));
+        Graph.generateImage(aut1, "automaat1");
 
-        RegExp reg = new RegExp();
-//        System.out.println(reg.toRegExp("a*|b+").getTaal(5));
 
-//        RegExp r1 = new RegExp("a");
-//        RegExp r2 = new RegExp("b");
-//
-//        RegExp r3 = r1.punt(r2);
-//
-//        RegExp r4 = new RegExp();
-//
-//        RegExp r5 = r3.punt(r4);
-//
-//        traverseRegExp(r5);
-//        System.out.println(aantalOperators(r5, 1));
-//        System.out.println(r5.getTaal(5));
+        DFA<String> aut2 = new DFA<String>(characters);
 
-//        RegExp all = bSter.punt(aPlus);
-//        RegExp all = r1.punt(r2.ster()).punt(r3.plus());
-//
-//        System.out.println(all.getTaal(5));
-//        reg.parseString(s);
-//        reg.parseString(s2);
-//        System.out.println(reg.parseString(s4).getTaal(3));
-//        System.out.println(aantalOperators(reg.parseString(s2),1));
-//        System.out.println(aantalOperators(reg.parseString(s4), 1));
-        System.out.println(aantalOperators(reg.parseString(s5), 1));
-//        System.out.println(reg.parseString(s3).getTaal(100)); // werkte!
+        aut2.addTransition(new Transition<String>("1", 'a', "1"));
+        aut2.addTransition(new Transition<String>("1", 'b', "2"));
 
-        new Frame();
+        aut2.addTransition(new Transition<String>("2", 'a', "1"));
+        aut2.addTransition(new Transition<String>("2", 'b', "3"));
+
+        aut2.addTransition(new Transition<String>("3", 'a', "1"));
+        aut2.addTransition(new Transition<String>("3", 'b', "4"));
+
+        aut2.addTransition(new Transition<String>("4", 'a', "4"));
+        aut2.addTransition(new Transition<String>("4", 'b', "4"));
+
+        aut2.defineAsStartState("1");
+        aut2.defineAsEndState("1");
+        aut2.defineAsEndState("2");
+
+        System.out.println("\n\nA2\n--------");
+        System.out.println(Graph.generateImageString(aut2));
+        Graph.generateImage(aut2, "automaat2");
+
+        DFA<String> en = aut1.en(aut2);
+
+        System.out.println("\n\nEN\n--------");
+        System.out.println(Graph.generateImageString(en));
+        Graph.generateImage(en, "en");
+
+        DFA<String> of = aut1.of(aut2);
+
+        System.out.println("\n\nOF\n--------");
+        System.out.println(Graph.generateImageString(of));
+        Graph.generateImage(of, "of");
     }
 }

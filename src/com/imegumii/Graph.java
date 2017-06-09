@@ -19,13 +19,28 @@ public class Graph {
 
     public static String generateGraphString(Automata<String> a)
     {
-        String text = "digraph finite_state_machine {\nrankdir=LR;\nsize=\"8,5\";\nnode [shape = doublecircle];";
+        String text = "digraph finite_state_machine {\nrankdir=LR;\nsize=\"8,5\";\n";
 
-        for(String s : a.eindStates){
-            text += s + " ";
+
+        if(a.eindStates.size() > 0) {
+            text += "node [shape=cirlce, peripheries=2];";
+
+            for (String s : a.eindStates) {
+                text += "\"" + s + "\" ";
+            }
+
+            text += ";";
         }
 
-        text += ";\nnode [shape = circle];\n";
+        if(a.beginStates.size() > 0) {
+            text += "\nnode [shape = point];\n";
+
+            for (String s : a.beginStates) {
+                text += "\" \" -> \"" + s + "\" [label = \" \"];";
+            }
+        }
+
+        text += "\nnode [shape = circle];\n";
 
         for(Transition<String> t : a.transistions)
         {
@@ -35,7 +50,41 @@ public class Graph {
             else
                 s = t.symbol + "";
 
-            text += t.vanState + " -> " + t.naarState + " [ label = \"" + s + "\"];\n";
+            text += "\"" + t.vanState + "\" -> \"" + t.naarState + "\" [ label = \"" + s + "\"];\n";
+        }
+
+        text += "}";
+
+        return text;
+    }
+
+    public static String generateImageString(Automata<String> a)
+    {
+        String text = "digraph {\nrankdir=LR;\n";
+
+        if(a.eindStates.size() > 0) {
+            for (String s : a.eindStates) {
+                text += "\"" + s + "\" [peripheries=2]\n";
+            }
+        }
+
+        if(a.beginStates.size() > 0) {
+            text += "\nstart [shape = point];\n";
+
+            for (String s : a.beginStates) {
+                text += "\"start\" -> \"" + s + "\" [label = \" \", color=aquamarine4];";
+            }
+        }
+
+        for(Transition<String> t : a.transistions)
+        {
+            String s = "";
+            if(t.symbol == Transition.EPSILON)
+                s = "$";
+            else
+                s = t.symbol + "";
+
+            text += "\"" + t.vanState + "\" -> \"" + t.naarState + "\" [ label = \"" + s + "\"];\n";
         }
 
         text += "}";
@@ -45,9 +94,9 @@ public class Graph {
 
     public static void generateImage(Automata<String> a, String fileName) {
         try {
-            File f = new File("images/" + a.toString() + ".dot");
+            File f = new File("images/" + a.hashCode() + ".dot");
             PrintWriter w = new PrintWriter(f);
-            w.println(Graph.generateGraphString(a));
+            w.print(Graph.generateImageString(a));
             w.flush();
             w.close();
             MutableGraph g = Parser.read(f);
@@ -57,8 +106,8 @@ public class Graph {
                 Graphviz.fromGraph(g).width(1080).render(Format.PNG).toFile(new File("images/" + a.toString() + ".png"));
             }
 
-            if (f.delete()) {
-                System.out.println("Succesfully deleted temp file");
+            if (!f.delete()) {
+                System.out.println("Failed to delete temp file");
             }
         } catch (IOException e) {
             e.printStackTrace();

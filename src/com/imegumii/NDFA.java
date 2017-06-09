@@ -8,10 +8,12 @@ import java.util.*;
 public class NDFA<T extends Comparable> extends Automata<T> {
     public NDFA(Character[] symbols) {
         super(symbols);
+        this.type = Type.NDFA;
     }
 
     public NDFA(SortedSet<Character> symbols) {
         super(symbols);
+        this.type = Type.NDFA;
     }
 
     public SortedSet<T> statesBereikbaarVanaf(T vanaf, char s) {

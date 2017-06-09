@@ -8,7 +8,7 @@ import java.util.*;
 /**
  * Created by kenny on 2-5-2017.
  */
-public class RegExp {
+public class RegExp extends Importable{
 
     public enum Operator { PLUS, STER, OF, PUNT, EEN}
 
@@ -27,6 +27,7 @@ public class RegExp {
 
     public RegExp()
     {
+        super(Type.REGEX);
         operator = Operator.EEN;
         characters = "";
         links = null;
@@ -34,6 +35,7 @@ public class RegExp {
     }
 
     public RegExp(String chars){
+        super(Type.REGEX);
         operator = Operator.EEN;
         characters = chars;
         links = null;
