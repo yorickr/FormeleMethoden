@@ -1,5 +1,6 @@
 package com.imegumii;
 
+import jdk.nashorn.internal.runtime.Source;
 import jdk.nashorn.internal.runtime.regexp.joni.Regex;
 
 import java.util.TreeSet;
@@ -414,6 +415,7 @@ public class Main {
         String s3 = "(a|b)+a";
 
         String s4 = "a+((ab)*b|ab|(b)*bb)+(abba|baab)+";
+        String s5 = "((ab)*b(a|b)|ab|(b)*bb)+";
 
         RegExp reg = new RegExp();
 //        System.out.println(reg.toRegExp("a*|b+").getTaal(5));
@@ -438,7 +440,9 @@ public class Main {
 //        reg.parseString(s);
 //        reg.parseString(s2);
 //        System.out.println(reg.parseString(s4).getTaal(3));
-        System.out.println(aantalOperators(reg.parseString(s4), 1));
+//        System.out.println(aantalOperators(reg.parseString(s2),1));
+//        System.out.println(aantalOperators(reg.parseString(s4), 1));
+        System.out.println(aantalOperators(reg.parseString(s5), 1));
 //        System.out.println(reg.parseString(s3).getTaal(100)); // werkte!
 
     }
