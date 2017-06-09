@@ -8,7 +8,7 @@ import java.util.TreeSet;
 /**
  * Created by imegumii on 18/04/2017.
  */
-public class Automata <T extends Comparable> {
+public class Automata <T extends Comparable> extends Importable {
 
     protected Set<Transition<T>> transistions;
 
@@ -23,6 +23,7 @@ public class Automata <T extends Comparable> {
     }
 
     public Automata(SortedSet<Character> symbols) {
+        super(Type.ERROR);
         states = new TreeSet<T>();
         beginStates = new TreeSet<T>();
         eindStates = new TreeSet<T>();
@@ -50,7 +51,17 @@ public class Automata <T extends Comparable> {
 
     public void printTransitions () {
         transistions.forEach(System.out::println);
+    }
 
+    public String getTransitions()
+    {
+        String s = "";
+        for(Transition t : transistions)
+        {
+            s += t.toString() + "\n";
+        }
+
+        return s;
     }
 
     public void print() {

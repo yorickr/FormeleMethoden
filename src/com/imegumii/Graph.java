@@ -23,7 +23,7 @@ public class Graph {
 
 
         if(a.eindStates.size() > 0) {
-            text += "node [shape = doublecircle];";
+            text += "node [shape=cirlce, peripheries=2];";
 
             for (String s : a.eindStates) {
                 text += "\"" + s + "\" ";
@@ -58,11 +58,45 @@ public class Graph {
         return text;
     }
 
+    public static String generateImageString(Automata<String> a)
+    {
+        String text = "digraph {\nrankdir=LR;\n";
+
+        if(a.eindStates.size() > 0) {
+            for (String s : a.eindStates) {
+                text += "\"" + s + "\" [peripheries=2]\n";
+            }
+        }
+
+        if(a.beginStates.size() > 0) {
+            text += "\nstart [shape = point];\n";
+
+            for (String s : a.beginStates) {
+                text += "\"start\" -> \"" + s + "\" [label = \" \", color=aquamarine4];";
+            }
+        }
+
+        for(Transition<String> t : a.transistions)
+        {
+            String s = "";
+            if(t.symbol == Transition.EPSILON)
+                s = "$";
+            else
+                s = t.symbol + "";
+
+            text += "\"" + t.vanState + "\" -> \"" + t.naarState + "\" [ label = \"" + s + "\"];\n";
+        }
+
+        text += "}";
+
+        return text;
+    }
+
     public static void generateImage(Automata<String> a, String fileName) {
         try {
             File f = new File("images/" + a.hashCode() + ".dot");
             PrintWriter w = new PrintWriter(f);
-            w.print(Graph.generateGraphString(a));
+            w.print(Graph.generateImageString(a));
             w.flush();
             w.close();
             MutableGraph g = Parser.read(f);

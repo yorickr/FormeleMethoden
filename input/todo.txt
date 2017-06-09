@@ -1,0 +1,7 @@
+Tabs voor openstaande grafieken, met manier om te sluiten ofzo
+File selector voor dot files
+Error message
+loading bar
+regex input
+exporteren van plaatje
+exporteren van raw data

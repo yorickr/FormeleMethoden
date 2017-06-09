@@ -17,8 +17,9 @@ public class Frame extends JFrame {
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         JPanel container = new JPanel(new BorderLayout());
-        container.add(ImagePanel.Instance(), BorderLayout.CENTER);
-        container.add(RegexPanel.Instance(), BorderLayout.NORTH);
+        container.add(TabPanel.Instance(), BorderLayout.CENTER);
+        container.add(InputPanel.Instance(), BorderLayout.NORTH);
+        container.add(StatusPanel.Instance(), BorderLayout.SOUTH);
 
         this.setContentPane(container);
 

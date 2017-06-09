@@ -12,10 +12,12 @@ public class DFA<T extends Comparable> extends Automata<T> {
 
     public DFA(Character[] symbols) {
         super(symbols);
+        this.type = Type.DFA;
     }
 
     public DFA(SortedSet<Character> symbols) {
         super(symbols);
+        this.type = Type.DFA;
     }
 
     public boolean accepteer(String s) {

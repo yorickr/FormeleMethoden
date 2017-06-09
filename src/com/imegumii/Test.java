@@ -20,9 +20,9 @@ public class Test {
 
 //        Hopcroft();
 
-//        TupleConstructie();
+        TupleConstructie();
 
-        FileReadTest();
+//        FileReadTest();
     }
 
     public static void P1Opdracht1(TreeSet<String> stringsToParse) {
@@ -374,7 +374,8 @@ public class Test {
         aut1.defineAsEndState("1");
 
         System.out.println("\n\nA1\n--------");
-        System.out.println(Graph.generateGraphString(aut1));
+        System.out.println(Graph.generateImageString(aut1));
+        Graph.generateImage(aut1, "automaat1");
 
 
         DFA<String> aut2 = new DFA<String>(characters);
@@ -396,25 +397,19 @@ public class Test {
         aut2.defineAsEndState("2");
 
         System.out.println("\n\nA2\n--------");
-        System.out.println(Graph.generateGraphString(aut2));
+        System.out.println(Graph.generateImageString(aut2));
+        Graph.generateImage(aut2, "automaat2");
 
         DFA<String> en = aut1.en(aut2);
 
         System.out.println("\n\nEN\n--------");
-        System.out.println(Graph.generateGraphString(en));
+        System.out.println(Graph.generateImageString(en));
+        Graph.generateImage(en, "en");
 
         DFA<String> of = aut1.of(aut2);
 
         System.out.println("\n\nOF\n--------");
-        System.out.println(Graph.generateGraphString(of));
-    }
-
-    public static void FileReadTest()
-    {
-        DFA<String> dfa1 = FileParser.readDFA("dfa1");
-        System.out.println(Graph.generateGraphString(dfa1));
-
-        NDFA<String> ndfa1 = FileParser.readNDFA("ndfa1");
-        System.out.println(Graph.generateGraphString(ndfa1));
+        System.out.println(Graph.generateImageString(of));
+        Graph.generateImage(of, "of");
     }
 }
