@@ -1,5 +1,7 @@
 package com.imegumii;
 
+import jdk.nashorn.internal.runtime.regexp.joni.Regex;
+
 import java.util.TreeSet;
 
 public class Main {
@@ -337,6 +339,60 @@ public class Main {
         geminimaliseerd.ontkenning();
     }
 
+    public static void TestUitOpdrachtBeschrijving() {
+        Character [] characters = {'a', 'b'};
+        NDFA<String> ndfa = new NDFA<String>(characters);
+
+        ndfa.addTransition(new Transition<String>("q0", 'a', "q1"));
+
+        ndfa.addTransition(new Transition<String>("q1", 'b', "q2"));
+        ndfa.addTransition(new Transition<String>("q1", 'b', "q0"));
+
+        ndfa.addTransition(new Transition<String>("q2", 'a', "q0"));
+        ndfa.addTransition(new Transition<String>("q2", 'a', "q3"));
+
+        ndfa.addTransition(new Transition<String>("q3", 'a', "q4"));
+
+        ndfa.defineAsStartState("q0");
+
+        ndfa.defineAsEndState("q0");
+        ndfa.defineAsEndState("q4");
+
+        Graph.generateImage(ndfa, "Ndfa");
+
+        DFA<String> dfa = ndfa.toDFA();
+
+        Graph.generateImage(dfa, "Dfa");
+
+    }
+
+    public static void traverseRegExp(RegExp r) {
+        if (r == null) {
+            return;
+        }
+        System.out.println(r);
+        System.out.println("Printing left ");
+        traverseRegExp(r.links);
+        System.out.println("Printing right");
+        traverseRegExp(r.rechts);
+        System.out.println("----");
+    }
+
+    public static int aantalOperators(RegExp r, int i) {
+        if (r != null) {
+            if (r.links != null) {
+                i++;
+                i = aantalOperators(r.links, i);
+            }
+            if (r.rechts != null) {
+                i++;
+                i = aantalOperators(r.rechts, i);
+            }
+        }
+
+        return i;
+    }
+
     public static void main(String[] args) {
 //        Practicum1();
 
@@ -348,6 +404,42 @@ public class Main {
 
 //        ReverseAutomata();
 
-        Hopcroft();
+//        Hopcroft();
+//        TestUitOpdrachtBeschrijving();
+
+        String s = "a*(aa+ |ba*b ) * (abba|baab|bbbb)+";
+
+
+        String s2 = "a(a+ | b*((a|b)+))";
+        String s3 = "(a|b)+a";
+
+        String s4 = "a+((ab)*b|ab|(b)*bb)+(abba|baab)+";
+
+        RegExp reg = new RegExp();
+//        System.out.println(reg.toRegExp("a*|b+").getTaal(5));
+
+//        RegExp r1 = new RegExp("a");
+//        RegExp r2 = new RegExp("b");
+//
+//        RegExp r3 = r1.punt(r2);
+//
+//        RegExp r4 = new RegExp();
+//
+//        RegExp r5 = r3.punt(r4);
+//
+//        traverseRegExp(r5);
+//        System.out.println(aantalOperators(r5, 1));
+//        System.out.println(r5.getTaal(5));
+
+//        RegExp all = bSter.punt(aPlus);
+//        RegExp all = r1.punt(r2.ster()).punt(r3.plus());
+//
+//        System.out.println(all.getTaal(5));
+//        reg.parseString(s);
+//        reg.parseString(s2);
+//        System.out.println(reg.parseString(s4).getTaal(3));
+        System.out.println(aantalOperators(reg.parseString(s4), 1));
+//        System.out.println(reg.parseString(s3).getTaal(100)); // werkte!
+
     }
 }

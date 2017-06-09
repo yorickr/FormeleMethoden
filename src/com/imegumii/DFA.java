@@ -89,6 +89,11 @@ public class DFA<T extends Comparable> extends Automata<T> {
         return this.reverse().toDFA().reverse().toDFA();
     }
 
+    public DFA<String> minimaliseerHopcroft() {
+        HopcroftConverter converter = new HopcroftConverter((DFA<String>) this);
+        return converter.minimize();
+    }
+
     public DFA<T> ontkenning() {
         DFA<T> returnDFA = new DFA<T>(this.symbols);
 
