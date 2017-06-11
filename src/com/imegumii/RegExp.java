@@ -41,7 +41,7 @@ public class RegExp extends Importable{
         rechts = null;
     }
 
-    public RegExp loopRecursiefDoorString(String s, RegExp r) {
+    public static RegExp loopRecursiefDoorString(String s, RegExp r) {
         Deque<Integer> start = new ArrayDeque<>();
         Deque<Integer> end = new ArrayDeque<>();
 
@@ -83,7 +83,7 @@ public class RegExp extends Importable{
         return reg;
     }
 
-    public RegExp naarRegExp(String s) {
+    public static RegExp naarRegExp(String s) {
         // String s is zonder spaces
 //        RegExp retval = new RegExp();
         // Als eerste moet de string in groupen gedeeld worden op basis van haakjes.
@@ -96,7 +96,7 @@ public class RegExp extends Importable{
         return r;
     }
 
-    public RegExp stringNaarRegExp(String start, RegExp initieel, Deque<RegExp> alreadyParsed) {
+    public static RegExp stringNaarRegExp(String start, RegExp initieel, Deque<RegExp> alreadyParsed) {
         ArrayList<RegExp> toOf = new ArrayList<>();
 
         ArrayList<String> strings = new ArrayList<>();

@@ -102,7 +102,7 @@ public class FileParser {
         String line = "Error";
         line = br.readLine();
 
-        RegExp regex = new RegExp("a").of(new RegExp("b").ster()); //RegExp.parse(line);
+        RegExp regex = RegExp.naarRegExp(line);
 
         return regex;
     }
