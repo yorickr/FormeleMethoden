@@ -160,15 +160,18 @@ public class HopcroftConverter {
 
 
     private int count = -1;
+    private int suffix = 0;
     private String[] alphabet = {"A", "B", "C", "D", "E", "F", "G","H","I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"};
 
     private String getGroupName()
     {
         count++;
-        if(count >= alphabet.length)
+        if(count >= alphabet.length) {
             count = 0;
+            suffix++;
+        }
 
-        return alphabet[count];
+        return alphabet[count] + suffix;
     }
 
 }

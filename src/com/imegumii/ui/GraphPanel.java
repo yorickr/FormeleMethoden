@@ -106,15 +106,9 @@ public class GraphPanel extends JPanel {
         minimizeButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
-                System.out.println("Kaas");
-
-                new Thread(new Runnable() {
+                BackgroundWorker.instance().addWorker(new BackgroundWorker.Worker() {
                     @Override
-                    public void run() {
-
-                        System.out.println(automata.type);
-
+                    public void execute() {
                         if(automata.type == Importable.Type.NDFA)
                         {
                             StatusPanel.Instance().setStatus("Converting to DFA " + name, 20);
@@ -123,26 +117,25 @@ public class GraphPanel extends JPanel {
 
                             StatusPanel.Instance().setStatus("Generating image for DFA " + name, 30);
 
-                            Graph.generateImage(convert, "cdfa." + name);
+                            Graph.generateImage(convert, "cdfa");
 
-                            TabPanel.Instance().addGraph("DFA: " + name, new File("images/cdfa." + name), convert);
+                            TabPanel.Instance().addGraph("DFA: " + name, new File("images/cdfa.png"), convert);
 
                             StatusPanel.Instance().setStatus("Minimizing cdfa." + name, 50);
 
-                            DFA<String> mini = convert.minimaliseerHopcroft();
+                            DFA<String> mini = convert.minimaliseer();
 
                             StatusPanel.Instance().setStatus("Generating minimized image", 70);
 
-                            Graph.generateImage(mini, "mcdfa." + name);
+                            Graph.generateImage(mini, "mcdfa");
 
-                            TabPanel.Instance().addGraph("DFA: mcdfa." + name, new File("images/mcdfa." + name), mini);
+                            TabPanel.Instance().addGraph("DFA: mcdfa." + name, new File("images/mcdfa.png"), mini);
 
                             StatusPanel.Instance().setStatus("Done", 100);
 
                         }
                     }
-                }).start();
-
+                });
             }
         });
 

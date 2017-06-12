@@ -16,7 +16,6 @@ import java.util.ArrayList;
 public class InputPanel extends JPanel {
 
     private static InputPanel panel;
-    private static boolean threadRunning = false;
 
     public static InputPanel Instance()
     {
@@ -48,31 +47,36 @@ public class InputPanel extends JPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
 
-                String regS = text.getText();
-                String name = regS.toLowerCase().trim();
+                BackgroundWorker.instance().addWorker(new BackgroundWorker.Worker() {
+                    @Override
+                    public void execute() {
+                        String regS = text.getText().trim();
+                        String name = "regex1";
 
-                text.setText("");
+                        text.setText("");
 
-                StatusPanel.Instance().setStatus("Parsing REGEX", 20);
+                        StatusPanel.Instance().setStatus("Parsing REGEX", 20);
 
-                RegExp regex = new RegExp();
-                regex = regex.naarRegExp(regS);
+                        RegExp regex = new RegExp();
+                        regex = regex.naarRegExp(regS);
 
-                StatusPanel.Instance().setStatus("Converting REGEX to NDFA", 40);
+                        StatusPanel.Instance().setStatus("Converting REGEX to NDFA", 40);
 
-                NDFA<String> ndfa = ThompsonConverter.convert(regex);
-                try {
-                    Thread.sleep(500);
-                } catch (InterruptedException e1) {
-                }
+                        NDFA<String> ndfa = ThompsonConverter.convert(regex);
+                        try {
+                            Thread.sleep(500);
+                        } catch (InterruptedException e1) {
+                        }
 
-                StatusPanel.Instance().setStatus("Generating image for NDFA", 70);
+                        StatusPanel.Instance().setStatus("Generating image for NDFA", 70);
 
-                Graph.generateImage(ndfa, name);
+                        Graph.generateImage(ndfa, name);
 
-                TabPanel.Instance().addGraph("REGEX: " + name, new File("images/" + name + ".png"), ndfa);
+                        TabPanel.Instance().addGraph("REGEX: " + name, new File("images/" + name + ".png"), ndfa);
 
-                StatusPanel.Instance().setStatus("Done", 100);
+                        StatusPanel.Instance().setStatus("Done", 100);
+                    }
+                });
             }
         });
 
@@ -103,13 +107,11 @@ public class InputPanel extends JPanel {
         fileButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                new Thread(new Runnable() {
-                    @Override public void run() {
 
-                        while(threadRunning){};
-
-                        threadRunning = true;
-
+                BackgroundWorker.instance().addWorker(new BackgroundWorker.Worker() {
+                    @Override
+                    public void execute() {
+;
                         StatusPanel.Instance().setStatus("Parsing file", 10);
 
                         String file = (String)fileCombo.getSelectedItem();
@@ -159,9 +161,8 @@ public class InputPanel extends JPanel {
 
                         StatusPanel.Instance().setStatus("Done", 100);
 
-                        threadRunning = false;
                     }
-                }).start();
+                });
             }
         });
 
