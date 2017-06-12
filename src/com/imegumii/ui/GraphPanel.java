@@ -248,6 +248,11 @@ public class GraphPanel extends JPanel {
             }
         });
 
+        JButton showPopup = new JButton("Show popup");
+        showPopup.addActionListener(e -> {
+            new PopupFrame(name, automata);
+        });
+
         JButton showGrammar = new JButton("Show grammar");
 
         buttonPanel.add(Box.createHorizontalGlue());
@@ -269,6 +274,9 @@ public class GraphPanel extends JPanel {
             buttonPanel.add(showGrammar);
             buttonPanel.add(Box.createRigidArea(new Dimension(10, 0)));
         }
+
+        buttonPanel.add(showPopup);
+        buttonPanel.add(Box.createRigidArea(new Dimension(10, 0)));
 
         buttonPanel.add(minimize2Button);
         buttonPanel.add(Box.createRigidArea(new Dimension(10, 0)));

@@ -1,6 +1,7 @@
 package com.imegumii.ui;
 
 import com.imegumii.*;
+import com.sun.tools.internal.ws.wsdl.document.Import;
 
 import javax.swing.*;
 import javax.swing.border.Border;
@@ -19,7 +20,7 @@ public class PopupFrame extends JFrame {
 
     boolean selected = false;
 
-    public PopupFrame(String name, RegExp r)
+    public PopupFrame(String name, Importable r)
     {
         super(name);
 
@@ -27,7 +28,15 @@ public class PopupFrame extends JFrame {
         //this.setResizable(false);
         this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
-        DFA<String> minimizedDfa = ThompsonConverter.convert(r).toDFA().minimaliseer();
+        DFA<String> tempDfa = null;
+
+        if (r.type == Importable.Type.DFA) {
+            tempDfa = ((DFA<String>) r).minimaliseer();
+        } else if (r.type == Importable.Type.REGEX) {
+            tempDfa = ThompsonConverter.convert((RegExp) r).toDFA().minimaliseer();
+        } else if (r.type == Importable.Type.NDFA) {
+            tempDfa = ((NDFA<String>) r).toDFA().minimaliseer();
+        }
 
         JPanel container = new JPanel(new BorderLayout());
 
@@ -63,7 +72,7 @@ public class PopupFrame extends JFrame {
         JTextField acceptString = new JTextField();
 
         JButton acceptButton = new JButton("Accept string");
-
+        DFA<String> minimizedDfa = tempDfa;
         generateButton.addActionListener(e -> {
             textArea.setText(""); // reset
             BackgroundWorker.instance().addWorker(() -> {
@@ -114,7 +123,7 @@ public class PopupFrame extends JFrame {
         });
 
         operaties.setText("4");
-        lengte.setText("100");
+        lengte.setText("5");
 
         textPanel.add(scrollPane);
         textPanel.add(acceptScrollPane);
