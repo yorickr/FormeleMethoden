@@ -27,9 +27,11 @@ public class DFA<T extends Comparable> extends Automata<T> {
 
 
         for (int i = 0; i < s.length(); i++) {
-//            System.out.println(s.charAt(i));
             for (Transition<T> t : this.transistions) {
-                if (t.vanState == currentState) {
+//                System.out.println("State is " + t.vanState);
+//                System.out.println("CurrentState is " + currentState);
+                if (t.vanState.equals(currentState)) {
+//                    System.out.println("Char is " + s.charAt(i) + " and state is " + t);
                     // if states match, parse using symbols.
                     if (t.symbol == s.charAt(i)) {
                         // symbols match

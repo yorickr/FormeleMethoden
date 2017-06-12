@@ -27,7 +27,9 @@ public class Main {
         RegExp reg = new RegExp();
 
 //        System.out.println(reg.naarRegExp(s3).getTaal(10));
-        System.out.println(reg.naarRegExp(s7).getTaal(10));
+//        System.out.println(reg.naarRegExp(s7).getTaal(10));
+//        Test.TestUitOpdrachtBeschrijving();
+
         new Frame();
     }
 }

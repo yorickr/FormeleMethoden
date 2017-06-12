@@ -59,6 +59,7 @@ public class InputPanel extends JPanel {
 
                         RegExp regex = new RegExp();
                         regex = regex.naarRegExp(regS);
+                        System.out.println(regex.getTaal(4, 10));
 
                         StatusPanel.Instance().setStatus("Converting REGEX to NDFA", 40);
 
@@ -144,7 +145,7 @@ public class InputPanel extends JPanel {
                             StatusPanel.Instance().setStatus("Converting REGEX to NDFA", 40);
                             RegExp regex = (RegExp) p;
 
-                            System.out.println(regex.getTaal(10));
+//                            System.out.println(regex.getTaal(10));
 
                             NDFA<String> ndfa = ThompsonConverter.convert(regex);
                             try {

@@ -2,6 +2,7 @@ package com.imegumii.ui;
 
 import com.imegumii.*;
 import org.apache.commons.io.FileUtils;
+import org.apache.xpath.SourceTree;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -130,9 +131,11 @@ public class GraphPanel extends JPanel {
                             Graph.generateImage(mini, "mcdfa");
 
                             TabPanel.Instance().addGraph("DFA: mcdfa." + name, new File("images/mcdfa.png"), mini);
-
+                            System.out.println(mini.accepteer("fuuuuuuuck"));
+                            System.out.println(mini.accepteer("fuuuuuuuckabba"));
+                            System.out.println(mini.accepteer("fuuuuuuuckabb"));
+                            mini.geefTaalTotLengte(10).getSymbols().forEach(s -> System.out.println("Accepteer " + s + " ? " + mini.accepteer(s)));
                             StatusPanel.Instance().setStatus("Done", 100);
-
                         }
                     }
                 });

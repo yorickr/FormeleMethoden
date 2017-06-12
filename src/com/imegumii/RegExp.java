@@ -3,6 +3,7 @@ package com.imegumii;
 import sun.misc.Regexp;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * Created by kenny on 2-5-2017.
@@ -217,7 +218,7 @@ public class RegExp extends Importable{
         return res;
     }
 
-    public Taal getTaal(int maxOperaties)
+    public Taal getTaal(int maxOperaties, int maxLength)
     {
         SortedSet<String> leeg = new TreeSet<>(vergelijkDmvLengte);
         SortedSet<String> resultaat = new TreeSet<>(vergelijkDmvLengte);
@@ -233,15 +234,15 @@ public class RegExp extends Importable{
                 break;
 
             case OF:
-                resLinks = links == null ? leeg : links.getTaal(maxOperaties - 1).getSymbols();
-                resRechts = rechts == null ? leeg : rechts.getTaal(maxOperaties - 1).getSymbols();
+                resLinks = links == null ? leeg : links.getTaal(maxOperaties - 1, maxLength).getSymbols();
+                resRechts = rechts == null ? leeg : rechts.getTaal(maxOperaties - 1, maxLength).getSymbols();
                 resultaat.addAll (resLinks);
                 resultaat.addAll (resRechts);
                 break;
 
             case PUNT:
-                resLinks = links == null ? leeg : links.getTaal(maxOperaties - 1).getSymbols();
-                resRechts = rechts == null ? leeg : rechts.getTaal(maxOperaties - 1).getSymbols();
+                resLinks = links == null ? leeg : links.getTaal(maxOperaties, maxLength).getSymbols();
+                resRechts = rechts == null ? leeg : rechts.getTaal(maxOperaties, maxLength).getSymbols();
                 for (String s1 : resLinks) {
                     for (String s2 : resRechts) {
                         resultaat.add(s1 + s2);
@@ -251,7 +252,7 @@ public class RegExp extends Importable{
 
             case STER:
             case PLUS:
-                resLinks = links == null ? leeg : links.getTaal(maxOperaties - 1).getSymbols();
+                resLinks = links == null ? leeg : links.getTaal(maxOperaties - 1, maxLength).getSymbols();
                 resultaat.addAll(resLinks);
                 for (int i = 1; i < maxOperaties; i++)
                 {
@@ -276,8 +277,9 @@ public class RegExp extends Importable{
                 break;
 
         }
-
-        return new Taal(resultaat);
+        SortedSet<String> ret = new TreeSet<>();
+        resultaat.stream().filter(r -> r.length() < maxLength).forEach(ret::add);
+        return new Taal(ret);
     }
 
     public class Tuple<X, Y> {

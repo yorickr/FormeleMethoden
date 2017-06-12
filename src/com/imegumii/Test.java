@@ -149,13 +149,13 @@ public class Test {
         // expr5: "(baa | baa)+ (a|b)*"
         RegExp expr5 = expr4.punt(all);
 
-        System.out.println("taal van (baa):\n" + expr1.getTaal(5));
-        System.out.println("taal van (bb):\n" + expr2.getTaal(5));
-        System.out.println("taal van (baa | bb):\n" + expr3.getTaal(5));
-
-        System.out.println("taal van (a|b)*:\n" + all.getTaal(5));
-        System.out.println("taal van (baa | bb)+:\n" + expr4.getTaal(5));
-        System.out.println("taal van (baa | bb)+ (a|b)*:\n" + expr5.getTaal(6));
+//        System.out.println("taal van (baa):\n" + expr1.getTaal(5));
+//        System.out.println("taal van (bb):\n" + expr2.getTaal(5));
+//        System.out.println("taal van (baa | bb):\n" + expr3.getTaal(5));
+//
+//        System.out.println("taal van (a|b)*:\n" + all.getTaal(5));
+//        System.out.println("taal van (baa | bb)+:\n" + expr4.getTaal(5));
+//        System.out.println("taal van (baa | bb)+ (a|b)*:\n" + expr5.getTaal(6));
 
     }
 
@@ -477,7 +477,6 @@ public class Test {
         DFA<String> dfa = ndfa.toDFA();
 
         Graph.generateImage(dfa, "Dfa");
-
     }
 
     public static void traverseRegExp(RegExp r) {
