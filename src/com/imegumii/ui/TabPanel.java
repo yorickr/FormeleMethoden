@@ -28,7 +28,9 @@ public class TabPanel extends JTabbedPane {
 
     public void addGraph(String name, File image, Automata<String> a)
     {
-        this.addTab(name, new GraphPanel(name, image, a));
+        String n = a.type.toString() + ": " + name;
+
+        this.addTab(n, new GraphPanel(name, image, a));
         this.setSelectedIndex(this.getTabCount() - 1);
     }
 

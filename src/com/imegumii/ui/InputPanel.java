@@ -51,15 +51,12 @@ public class InputPanel extends JPanel {
                     @Override
                     public void execute() {
                         String regS = text.getText().trim();
-                        String name = "regex1";
-
-                        text.setText("");
+                        String name = regS;
 
                         StatusPanel.Instance().setStatus("Parsing REGEX", 20);
 
                         RegExp regex = new RegExp();
                         regex = regex.naarRegExp(regS);
-                        System.out.println(regex.getTaal(4, 10));
 
                         StatusPanel.Instance().setStatus("Converting REGEX to NDFA", 40);
 
@@ -67,9 +64,9 @@ public class InputPanel extends JPanel {
 
                         StatusPanel.Instance().setStatus("Generating image for NDFA", 70);
 
-                        Graph.generateImage(ndfa, name);
+                        File img = Graph.generateImage(ndfa);
 
-                        TabPanel.Instance().addGraph("REGEX: " + name, new File("images/" + name + ".png"), ndfa);
+                        TabPanel.Instance().addGraph(name, img, ndfa);
 
                         StatusPanel.Instance().setStatus("Generating taal", 90);
 
@@ -125,9 +122,9 @@ public class InputPanel extends JPanel {
                             StatusPanel.Instance().setStatus("Generating image for NDFA", 60);
                             NDFA<String> ndfa = (NDFA<String>)p;
 
-                            Graph.generateImage(ndfa, name);
+                            File f = Graph.generateImage(ndfa);
 
-                            TabPanel.Instance().addGraph("NDFA: " + name, new File("images/" + name + ".png"), ndfa);
+                            TabPanel.Instance().addGraph(name, f, ndfa);
                         }
 
                         if(p.type == Importable.Type.DFA)
@@ -135,9 +132,9 @@ public class InputPanel extends JPanel {
                             StatusPanel.Instance().setStatus("Generating image for DFA", 60);
                             DFA<String> dfa = (DFA<String>)p;
 
-                            Graph.generateImage(dfa, name);
+                            File f = Graph.generateImage(dfa);
 
-                            TabPanel.Instance().addGraph("DFA: " + name, new File("images/" + name + ".png"), dfa);
+                            TabPanel.Instance().addGraph(name, f, dfa);
                         }
 
                         if(p.type == Importable.Type.REGEX)
@@ -145,19 +142,13 @@ public class InputPanel extends JPanel {
                             StatusPanel.Instance().setStatus("Converting REGEX to NDFA", 40);
                             RegExp regex = (RegExp) p;
 
-//                            System.out.println(regex.getTaal(10));
-
                             NDFA<String> ndfa = ThompsonConverter.convert(regex);
-                            try {
-                                Thread.sleep(500);
-                            } catch (InterruptedException e1) {
-                            }
 
                             StatusPanel.Instance().setStatus("Generating image for NDFA", 70);
 
-                            Graph.generateImage(ndfa, name);
+                            File f = Graph.generateImage(ndfa);
 
-                            TabPanel.Instance().addGraph("REGEX: " + name, new File("images/" + name + ".png"), ndfa);
+                            TabPanel.Instance().addGraph(name, f, ndfa);
                         }
 
                         StatusPanel.Instance().setStatus("Done", 100);
