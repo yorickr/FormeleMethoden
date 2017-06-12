@@ -1,6 +1,7 @@
 package com.imegumii.ui;
 
 import com.imegumii.*;
+import jdk.nashorn.internal.runtime.regexp.joni.Regex;
 
 import javax.swing.*;
 import java.awt.*;
@@ -15,6 +16,7 @@ import java.util.ArrayList;
 public class InputPanel extends JPanel {
 
     private static InputPanel panel;
+    private static boolean threadRunning = false;
 
     public static InputPanel Instance()
     {
@@ -45,7 +47,32 @@ public class InputPanel extends JPanel {
         button.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                TabPanel.Instance().addGraph("DFA: En", new File("images/en.png"), "Dit is nog meer rauwe en data");
+
+                String regS = text.getText();
+                String name = regS.toLowerCase().trim();
+
+                text.setText("");
+
+                StatusPanel.Instance().setStatus("Parsing REGEX", 20);
+
+                RegExp regex = new RegExp();
+                regex = regex.naarRegExp(regS);
+
+                StatusPanel.Instance().setStatus("Converting REGEX to NDFA", 40);
+
+                NDFA<String> ndfa = ThompsonConverter.convert(regex);
+                try {
+                    Thread.sleep(500);
+                } catch (InterruptedException e1) {
+                }
+
+                StatusPanel.Instance().setStatus("Generating image for NDFA", 70);
+
+                Graph.generateImage(ndfa, name);
+
+                TabPanel.Instance().addGraph("REGEX: " + name, new File("images/" + name + ".png"), ndfa.getTransitions());
+
+                StatusPanel.Instance().setStatus("Done", 100);
             }
         });
 
@@ -76,48 +103,63 @@ public class InputPanel extends JPanel {
         fileButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                StatusPanel.Instance().setStatus("Parsing file", 10);
+                new Thread(new Runnable() {
+                    @Override public void run() {
 
-                String file = (String)fileCombo.getSelectedItem();
-                String name = file.replaceAll(".dot", "");
+                        while(threadRunning){};
 
-                Importable p = FileParser.read(file);
+                        threadRunning = true;
 
-                if(p.type == Importable.Type.NDFA)
-                {
-                    StatusPanel.Instance().setStatus("Generating image for NDFA", 60);
-                    NDFA<String> ndfa = (NDFA<String>)p;
+                        StatusPanel.Instance().setStatus("Parsing file", 10);
 
-                    Graph.generateImage(ndfa, name);
+                        String file = (String)fileCombo.getSelectedItem();
+                        String name = file.replaceAll(".dot", "");
 
-                    TabPanel.Instance().addGraph("NDFA: " + name, new File("images/" + name + ".png"), ndfa.getTransitions());
-                }
+                        Importable p = FileParser.read(file);
 
-                if(p.type == Importable.Type.DFA)
-                {
-                    StatusPanel.Instance().setStatus("Generating image for DFA", 60);
-                    DFA<String> dfa = (DFA<String>)p;
+                        if(p.type == Importable.Type.NDFA)
+                        {
+                            StatusPanel.Instance().setStatus("Generating image for NDFA", 60);
+                            NDFA<String> ndfa = (NDFA<String>)p;
 
-                    Graph.generateImage(dfa, name);
+                            Graph.generateImage(ndfa, name);
 
-                    TabPanel.Instance().addGraph("DFA: " + name, new File("images/" + name + ".png"), dfa.getTransitions());
-                }
+                            TabPanel.Instance().addGraph("NDFA: " + name, new File("images/" + name + ".png"), ndfa.getTransitions());
+                        }
 
-                if(p.type == Importable.Type.REGEX)
-                {
-                    StatusPanel.Instance().setStatus("Converting REGEX to NDFA", 40);
-                    RegExp regex = (RegExp) p;
+                        if(p.type == Importable.Type.DFA)
+                        {
+                            StatusPanel.Instance().setStatus("Generating image for DFA", 60);
+                            DFA<String> dfa = (DFA<String>)p;
 
-                    NDFA<String> ndfa = ThompsonConverter.convert(regex);
+                            Graph.generateImage(dfa, name);
 
-                    StatusPanel.Instance().setStatus("Generating image for NDFA", 70);
+                            TabPanel.Instance().addGraph("DFA: " + name, new File("images/" + name + ".png"), dfa.getTransitions());
+                        }
 
-                    Graph.generateImage(ndfa, name);
+                        if(p.type == Importable.Type.REGEX)
+                        {
+                            StatusPanel.Instance().setStatus("Converting REGEX to NDFA", 40);
+                            RegExp regex = (RegExp) p;
 
-                    TabPanel.Instance().addGraph("REGEX: " + name, new File("images/" + name + ".png"), ndfa.getTransitions());
-                }
+                            NDFA<String> ndfa = ThompsonConverter.convert(regex);
+                            try {
+                                Thread.sleep(500);
+                            } catch (InterruptedException e1) {
+                            }
 
-                StatusPanel.Instance().setStatus("Done", 100);
+                            StatusPanel.Instance().setStatus("Generating image for NDFA", 70);
+
+                            Graph.generateImage(ndfa, name);
+
+                            TabPanel.Instance().addGraph("REGEX: " + name, new File("images/" + name + ".png"), ndfa.getTransitions());
+                        }
+
+                        StatusPanel.Instance().setStatus("Done", 100);
+
+                        threadRunning = false;
+                    }
+                }).start();
             }
         });
 

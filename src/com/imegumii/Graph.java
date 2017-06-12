@@ -92,22 +92,13 @@ public class Graph {
         return text;
     }
 
-    public static void generateImage(Automata<String> a, String fileName) {
+    public static synchronized void generateImage(Automata<String> a, String fileName) {
         try {
-            File f = new File("images/" + a.hashCode() + ".dot");
-            PrintWriter w = new PrintWriter(f);
-            w.print(Graph.generateImageString(a));
-            w.flush();
-            w.close();
-            MutableGraph g = Parser.read(f);
+            MutableGraph g = Parser.read(Graph.generateImageString(a));
             if (fileName != null) {
                 Graphviz.fromGraph(g).width(1080).render(Format.PNG).toFile(new File("images/" + fileName + ".png"));
             } else {
-                Graphviz.fromGraph(g).width(1080).render(Format.PNG).toFile(new File("images/" + a.toString() + ".png"));
-            }
-
-            if (!f.delete()) {
-                System.out.println("Failed to delete temp file");
+                Graphviz.fromGraph(g).width(1080).render(Format.PNG).toFile(new File("images/" + a.hashCode() + ".png"));
             }
         } catch (IOException e) {
             e.printStackTrace();
