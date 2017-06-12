@@ -175,9 +175,10 @@ public class DFA<T extends Comparable> extends Automata<T> {
         {
             Transition<String> t = it.next();
 
-            if(!usedStates.contains(t.vanState))
+            if(!usedStates.contains(t.vanState) && !merged.beginStates.contains(t.vanState))
             {
                 it.remove();
+                merged.eindStates.remove(t.vanState);
             }
         }
 
