@@ -73,7 +73,7 @@ public class RegExp extends Importable{
 //                System.out.println("Toreplace is " + toReplace.toString());
                 toProcessAfter = toProcessAfter.replace(toReplace, replaceWith);
 
-                processedParantheses.add(stringNaarRegExp(sub, new RegExp(), null));
+                processedParantheses.add(stringNaarRegExp(sub, r, null));
             }
         }
 

@@ -1,5 +1,7 @@
 package com.imegumii.ui;
 
+import com.imegumii.Automata;
+
 import javax.swing.*;
 import java.awt.*;
 import java.io.*;
@@ -24,9 +26,9 @@ public class TabPanel extends JTabbedPane {
         super();
     }
 
-    public void addGraph(String name, File image, String rawData)
+    public void addGraph(String name, File image, Automata<String> a)
     {
-        this.addTab(name, new GraphPanel(name, image, rawData));
+        this.addTab(name, new GraphPanel(name, image, a));
         this.setSelectedIndex(this.getTabCount() - 1);
     }
 

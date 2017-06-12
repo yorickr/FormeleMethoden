@@ -70,7 +70,7 @@ public class InputPanel extends JPanel {
 
                 Graph.generateImage(ndfa, name);
 
-                TabPanel.Instance().addGraph("REGEX: " + name, new File("images/" + name + ".png"), ndfa.getTransitions());
+                TabPanel.Instance().addGraph("REGEX: " + name, new File("images/" + name + ".png"), ndfa);
 
                 StatusPanel.Instance().setStatus("Done", 100);
             }
@@ -124,7 +124,7 @@ public class InputPanel extends JPanel {
 
                             Graph.generateImage(ndfa, name);
 
-                            TabPanel.Instance().addGraph("NDFA: " + name, new File("images/" + name + ".png"), ndfa.getTransitions());
+                            TabPanel.Instance().addGraph("NDFA: " + name, new File("images/" + name + ".png"), ndfa);
                         }
 
                         if(p.type == Importable.Type.DFA)
@@ -134,13 +134,15 @@ public class InputPanel extends JPanel {
 
                             Graph.generateImage(dfa, name);
 
-                            TabPanel.Instance().addGraph("DFA: " + name, new File("images/" + name + ".png"), dfa.getTransitions());
+                            TabPanel.Instance().addGraph("DFA: " + name, new File("images/" + name + ".png"), dfa);
                         }
 
                         if(p.type == Importable.Type.REGEX)
                         {
                             StatusPanel.Instance().setStatus("Converting REGEX to NDFA", 40);
                             RegExp regex = (RegExp) p;
+
+                            System.out.println(regex.getTaal(10));
 
                             NDFA<String> ndfa = ThompsonConverter.convert(regex);
                             try {
@@ -152,7 +154,7 @@ public class InputPanel extends JPanel {
 
                             Graph.generateImage(ndfa, name);
 
-                            TabPanel.Instance().addGraph("REGEX: " + name, new File("images/" + name + ".png"), ndfa.getTransitions());
+                            TabPanel.Instance().addGraph("REGEX: " + name, new File("images/" + name + ".png"), ndfa);
                         }
 
                         StatusPanel.Instance().setStatus("Done", 100);

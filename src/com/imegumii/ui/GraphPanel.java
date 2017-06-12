@@ -1,5 +1,6 @@
 package com.imegumii.ui;
 
+import com.imegumii.*;
 import org.apache.commons.io.FileUtils;
 
 import javax.imageio.ImageIO;
@@ -18,20 +19,20 @@ public class GraphPanel extends JPanel {
 
     private String name;
     private File imageLocation;
-    private String export;
+    private Automata<String> automata;
 
     public String getName()
     {
         return name;
     }
 
-    public GraphPanel(String name, File f, String export)
+    public GraphPanel(String name, File f, Automata<String> automata)
     {
         super(new BorderLayout());
 
         this.name = name;
         this.imageLocation = f;
-        this.export = export;
+        this.automata = automata;
 
         this.add(new GraphImagePanel(imageLocation), BorderLayout.CENTER);
 
@@ -66,7 +67,7 @@ public class GraphPanel extends JPanel {
                 PrintWriter w = null;
                 try {
                     w = new PrintWriter(file);
-                    w.print(export);
+                    w.print(automata.getTransitions());
                     w.flush();
                     w.close();
                     StatusPanel.Instance().setStatus("Success: " + filename);
@@ -101,7 +102,53 @@ public class GraphPanel extends JPanel {
             }
         });
 
+        JButton minimizeButton = new JButton("Minimize graph");
+        minimizeButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+                System.out.println("Kaas");
+
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+
+                        System.out.println(automata.type);
+
+                        if(automata.type == Importable.Type.NDFA)
+                        {
+                            StatusPanel.Instance().setStatus("Converting to DFA " + name, 20);
+
+                            DFA<String> convert = ((NDFA<String>) automata).toDFA();
+
+                            StatusPanel.Instance().setStatus("Generating image for DFA " + name, 30);
+
+                            Graph.generateImage(convert, "cdfa." + name);
+
+                            TabPanel.Instance().addGraph("DFA: " + name, new File("images/cdfa." + name), convert);
+
+                            StatusPanel.Instance().setStatus("Minimizing cdfa." + name, 50);
+
+                            DFA<String> mini = convert.minimaliseerHopcroft();
+
+                            StatusPanel.Instance().setStatus("Generating minimized image", 70);
+
+                            Graph.generateImage(mini, "mcdfa." + name);
+
+                            TabPanel.Instance().addGraph("DFA: mcdfa." + name, new File("images/mcdfa." + name), mini);
+
+                            StatusPanel.Instance().setStatus("Done", 100);
+
+                        }
+                    }
+                }).start();
+
+            }
+        });
+
         buttonPanel.add(Box.createHorizontalGlue());
+        buttonPanel.add(minimizeButton);
+        buttonPanel.add(Box.createRigidArea(new Dimension(10, 0)));
         buttonPanel.add(exportImage);
         buttonPanel.add(Box.createRigidArea(new Dimension(10,0)));
         buttonPanel.add(exportData);

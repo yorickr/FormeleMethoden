@@ -10,14 +10,14 @@ public class ThompsonConverter {
     public static NDFA<String> convert(RegExp regex)
     {
         Character [] characters = {'a', 'b'};
-        NDFA generated = new NDFA<String>(characters);
+        NDFA<String> generated = new NDFA<String>(characters);
 
         convertStatement(regex, generated);
 
         return generated;
     }
 
-    private static void convertStatement(RegExp regex, NDFA automata)
+    private static void convertStatement(RegExp regex, NDFA<String> automata)
     {
         switch(regex.operator)
         {
@@ -25,8 +25,8 @@ public class ThompsonConverter {
 
                 //Links
                 convertStatement(regex.links, automata);
-                String endLink1 = (String) automata.eindStates.first();
-                String beginLink1 = (String) automata.beginStates.first();
+                String endLink1 = automata.eindStates.first();
+                String beginLink1 = automata.beginStates.first();
 
                 //Repeat and skip
                 automata.addTransition(new Transition(endLink1, Transition.EPSILON, beginLink1));
@@ -42,8 +42,8 @@ public class ThompsonConverter {
 
                 //Links
                 convertStatement(regex.links, automata);
-                String endLink2 = (String) automata.eindStates.first();
-                String beginLink2 = (String) automata.beginStates.first();
+                String endLink2 = automata.eindStates.first();
+                String beginLink2 = automata.beginStates.first();
 
                 //New states
                 String start2 = getState();
@@ -66,13 +66,13 @@ public class ThompsonConverter {
 
                 //Links
                 convertStatement(regex.links, automata);
-                String topEnd = (String) automata.eindStates.first();
-                String topBegin = (String) automata.beginStates.first();
+                String topEnd = automata.eindStates.first();
+                String topBegin = automata.beginStates.first();
 
                 //Rechts
                 convertStatement(regex.rechts, automata);
-                String bottomBegin = (String) automata.beginStates.first();
-                String bottomEnd = (String) automata.eindStates.first();
+                String bottomBegin = automata.beginStates.first();
+                String bottomEnd = automata.eindStates.first();
 
                 //New states
                 String start3 = getState();
@@ -96,13 +96,13 @@ public class ThompsonConverter {
 
                 //Links
                 convertStatement(regex.links, automata);
-                String endLink = (String) automata.eindStates.first();
-                String newBeginLink = (String) automata.beginStates.first();
+                String endLink = automata.eindStates.first();
+                String newBeginLink = automata.beginStates.first();
 
                 //Rechts
                 convertStatement(regex.rechts, automata);
-                String beginLink = (String) automata.beginStates.first();
-                String newEndLink = (String) automata.eindStates.first();
+                String beginLink = automata.beginStates.first();
+                String newEndLink = automata.eindStates.first();
 
                 //Link both
                 automata.addTransition(new Transition(endLink, Transition.EPSILON, beginLink));
@@ -115,10 +115,25 @@ public class ThompsonConverter {
 
                 break;
             case EEN:
+
                 char[] s = regex.characters.toCharArray();
 
                 automata.clearBeginStates();
                 automata.clearEindStates();
+
+                if(regex.characters.length() <= 0)
+                {
+                    String state1 = getState();
+                    String state2 = getState();
+
+                    Transition<String> t = new Transition<String>(state1, Transition.EPSILON, state2);
+
+                    automata.addTransition(t);
+                    automata.defineAsStartState(state1);
+                    automata.defineAsEndState(state2);
+
+                    break;
+                }
 
                 String prevState = getState();
                 String newState = "";
