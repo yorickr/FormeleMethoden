@@ -27,14 +27,19 @@ public class ThompsonConverter {
                 String endLink1 = automata.eindStates.first();
                 String beginLink1 = automata.beginStates.first();
 
-                //Repeat and skip
-                automata.addTransition(new Transition(endLink1, Transition.EPSILON, beginLink1));
+                String newstart = getState();
+                String newEnd = getState();
+
+                //Repeat
+                automata.addTransition(new Transition<String>(newstart, Transition.EPSILON, beginLink1));
+                automata.addTransition(new Transition<String>(endLink1, Transition.EPSILON, newEnd));
+                automata.addTransition(new Transition<String>(endLink1, Transition.EPSILON, beginLink1));
 
                 automata.clearEindStates();
                 automata.clearBeginStates();
 
-                automata.defineAsStartState(endLink1);
-                automata.defineAsEndState(beginLink1);
+                automata.defineAsStartState(newstart);
+                automata.defineAsEndState(newEnd);
 
                 break;
             case STER:
@@ -49,10 +54,10 @@ public class ThompsonConverter {
                 String end2 = getState();
 
                 //Repeat and skip
-                automata.addTransition(new Transition(start2, Transition.EPSILON, end2));
-                automata.addTransition(new Transition(endLink2, Transition.EPSILON, beginLink2));
-                automata.addTransition(new Transition(start2, Transition.EPSILON, beginLink2));
-                automata.addTransition(new Transition(endLink2, Transition.EPSILON, end2));
+                automata.addTransition(new Transition<String>(start2, Transition.EPSILON, end2));
+                automata.addTransition(new Transition<String>(endLink2, Transition.EPSILON, beginLink2));
+                automata.addTransition(new Transition<String>(start2, Transition.EPSILON, beginLink2));
+                automata.addTransition(new Transition<String>(endLink2, Transition.EPSILON, end2));
 
                 automata.clearEindStates();
                 automata.clearBeginStates();
@@ -78,10 +83,10 @@ public class ThompsonConverter {
                 String end3 = getState();
 
                 //Link both
-                automata.addTransition(new Transition(start3, Transition.EPSILON, topBegin));
-                automata.addTransition(new Transition(start3, Transition.EPSILON, bottomBegin));
-                automata.addTransition(new Transition(topEnd, Transition.EPSILON, end3));
-                automata.addTransition(new Transition(bottomEnd, Transition.EPSILON, end3));
+                automata.addTransition(new Transition<String>(start3, Transition.EPSILON, topBegin));
+                automata.addTransition(new Transition<String>(start3, Transition.EPSILON, bottomBegin));
+                automata.addTransition(new Transition<String>(topEnd, Transition.EPSILON, end3));
+                automata.addTransition(new Transition<String>(bottomEnd, Transition.EPSILON, end3));
 
                 automata.clearEindStates();
                 automata.clearBeginStates();
@@ -104,7 +109,7 @@ public class ThompsonConverter {
                 String newEndLink = automata.eindStates.first();
 
                 //Link both
-                automata.addTransition(new Transition(endLink, Transition.EPSILON, beginLink));
+                automata.addTransition(new Transition<String>(endLink, Transition.EPSILON, beginLink));
 
                 automata.clearEindStates();
                 automata.clearBeginStates();

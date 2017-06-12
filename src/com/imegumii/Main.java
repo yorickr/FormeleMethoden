@@ -29,7 +29,7 @@ public class Main {
 //        System.out.println(reg.naarRegExp(s3).getTaal(10));
 //        System.out.println(reg.naarRegExp(s7).getTaal(10));
 //        Test.TestUitOpdrachtBeschrijving();
-
+//        Test.Thompson();
         new Frame();
     }
 }

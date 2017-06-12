@@ -160,19 +160,12 @@ public class Test {
     }
 
     public static void Thompson() {
-        RegExp expr1 = new RegExp("a");
-        RegExp expr2 = new RegExp("b");
-        RegExp expr3 = new RegExp("c");
-        RegExp expr4 = new RegExp("d");
+        RegExp expr1 = new RegExp();
+        expr1 = expr1.naarRegExp("a(abba|baab)*b+");
 
-        RegExp expr5 = expr1.of(expr2);
-        RegExp expr6 = expr3.of(expr4);
+        NDFA<String> test = ThompsonConverter.convert(expr1);
 
-        RegExp expr7 = expr5.punt(expr6);
-
-        NDFA<String> test = ThompsonConverter.convert(expr7);
-
-        System.out.println(Graph.generateGraphString(test));
+        Graph.generateImage(test, "thompson");
     }
 
     public static void Hopcroft()
