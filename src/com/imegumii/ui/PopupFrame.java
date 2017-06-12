@@ -8,11 +8,16 @@ import javax.swing.text.BadLocationException;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.util.SortedSet;
+import java.util.TreeSet;
 
 /**
  * Created by kenny on 12-6-2017.
  */
 public class PopupFrame extends JFrame {
+
+    boolean selected = false;
 
     public PopupFrame(String name, RegExp r)
     {
@@ -53,6 +58,7 @@ public class PopupFrame extends JFrame {
 
         JButton generateButton = new JButton("Generate language");
 //        JButton cancelButton = new JButton("Cancel operation");
+        JCheckBox checkBox = new JCheckBox("Negate");
 
         JTextField acceptString = new JTextField();
 
@@ -62,11 +68,35 @@ public class PopupFrame extends JFrame {
             textArea.setText(""); // reset
             BackgroundWorker.instance().addWorker(() -> {
                 long currentTime = System.currentTimeMillis();
-                Taal t = r.getTaal(Integer.parseInt(operaties.getText()), Integer.parseInt(lengte.getText()));
-                textArea.append("The language contains " + t.getSymbols().size() + " strings\n");
+//                Taal t = r.getTaal(Integer.parseInt(operaties.getText()), Integer.parseInt(lengte.getText()));
+                SortedSet<String> symbols = minimizedDfa.geefTaalTotLengte(Integer.parseInt(lengte.getText())).getSymbols();
+                SortedSet<String> actuallyContains = new TreeSet<>();
+                if (selected) {
+                    for (String symbol : symbols) {
+                        if (!minimizedDfa.accepteer(symbol)) {
+                            actuallyContains.add(symbol);
+                        }
+                    }
+                    textArea.append("The language does not contain " + actuallyContains.size() + " strings out of a max of " + symbols.size() + "\n");
+                } else {
+                    for (String symbol : symbols) {
+                        if (minimizedDfa.accepteer(symbol)) {
+                            actuallyContains.add(symbol);
+                        }
+                    }
+                    textArea.append("The language contains " + actuallyContains.size() + " strings out of a max of " + symbols.size() + "\n");
+                }
                 textArea.append("It took " + (System.currentTimeMillis() - currentTime) + " milliseconds to generate and filter them\n");
-                t.getSymbols().forEach(s -> textArea.append("The language contains: " + s + "\n"));
+                actuallyContains.forEach(s -> textArea.append("String: " + s + "\n"));
             });
+        });
+
+        checkBox.addItemListener(e -> {
+            if (e.getStateChange() == ItemEvent.DESELECTED) {
+                selected = false;
+            } else {
+                selected = true;
+            }
         });
 
 //        cancelButton.addActionListener(e -> {
@@ -91,6 +121,9 @@ public class PopupFrame extends JFrame {
         container.add(textPanel, BorderLayout.CENTER);
 
         generatePanel.add(generateButton);
+        generatePanel.add(Box.createRigidArea(new Dimension(10,0)));
+
+        generatePanel.add(checkBox);
         generatePanel.add(Box.createRigidArea(new Dimension(10,0)));
 
 //        generatePanel.add(cancelButton);

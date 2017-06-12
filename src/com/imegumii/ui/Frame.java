@@ -12,9 +12,9 @@ public class Frame extends JFrame {
     {
         super("Automata");
 
-        this.setSize(700, 800);
+        this.setSize(1000, 800);
         //this.setResizable(false);
-        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
         JPanel container = new JPanel(new BorderLayout());
         container.add(TabPanel.Instance(), BorderLayout.CENTER);

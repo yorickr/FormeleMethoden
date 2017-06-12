@@ -248,12 +248,25 @@ public class GraphPanel extends JPanel {
             }
         });
 
+        JButton showGrammar = new JButton("Show grammar");
+
         buttonPanel.add(Box.createHorizontalGlue());
 
         if(automata.type == Importable.Type.DFA) {
             buttonPanel.add(notButton);
             buttonPanel.add(Box.createRigidArea(new Dimension(10, 0)));
             buttonPanel.add(reverseButton);
+            buttonPanel.add(Box.createRigidArea(new Dimension(10, 0)));
+        }
+
+        if (automata.type == Importable.Type.NDFA) {
+            showGrammar.addActionListener(e -> {
+                BackgroundWorker.instance().addWorker(() -> {
+                    GrammarConverter c = new GrammarConverter();
+                    new TextPanel("Grammar", c.toGrammar((NDFA<String>) automata).printToString());
+                });
+            });
+            buttonPanel.add(showGrammar);
             buttonPanel.add(Box.createRigidArea(new Dimension(10, 0)));
         }
 

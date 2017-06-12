@@ -14,11 +14,7 @@ public class GrammarConverter {
         for (Character symbol : automata.symbols) {
             SortedSet<String> bereikbaarVanafViaEpsilonBereikbareState = automata.statesBereikbaarVanaf(state, symbol);
             for (String s1 : bereikbaarVanafViaEpsilonBereikbareState) {
-                if (automata.eindStates.contains(s1)) {
-                    canGoTo.add("" + symbol);
-                } else {
-                    canGoTo.add("" + symbol + s1);
-                }
+                canGoTo.add("" + symbol + s1);
             }
         }
         return canGoTo;
@@ -37,6 +33,7 @@ public class GrammarConverter {
 
                 SortedSet<String> bereikbaarVanafEpsilon = automata.statesBereikbaarVanaf(state, Transition.EPSILON);
                 for (String s : bereikbaarVanafEpsilon) {
+                    canGoTo.add("" + Transition.EPSILON + s);
                     SortedSet<String> bereikbaarVanafEpsilonViaSymbool = automata.statesBereikbaarVanaf(s, symbol);
                     for (String s1 : bereikbaarVanafEpsilonViaSymbool) {
                         canGoTo.add("" + symbol + s1);
@@ -85,6 +82,16 @@ public class GrammarConverter {
         public Grammar link(Grammar other) {
             this.below = other;
             return other;
+        }
+
+        public String printToString() {
+            StringBuilder sb = new StringBuilder();
+            sb.append(toString());
+            sb.append("\n");
+            if (below != null) {
+                sb.append(below.printToString());
+            }
+            return sb.toString();
         }
 
         public void print() {
