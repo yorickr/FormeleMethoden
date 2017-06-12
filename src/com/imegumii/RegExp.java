@@ -42,46 +42,82 @@ public class RegExp extends Importable{
         rechts = null;
     }
 
-    public RegExp loopRecursiefDoorString(String s, RegExp r) {
-        Deque<Integer> start = new ArrayDeque<>();
-        Deque<Integer> end = new ArrayDeque<>();
+    public RegExp loopRecursiefDoorString(String startString, RegExp r) {
+        int count = 0;
+        boolean moetRecursief = false;
 
-        ArrayList<Tuple<Integer, Integer>> segments = new ArrayList<>();
-
-        Deque<RegExp> processedParantheses = new ArrayDeque<>();
-
-        String toProcessAfter = s;
-        for (int i = 0; i < s.length(); i++) {
-            char c = s.charAt(i);
+        for (int i = 0; i < startString.length(); i++) {
+            char c = startString.charAt(i);
 
             if (c == '(') {
-                start.addLast(i);
+                count++;
             }
-
             if (c == ')') {
-                end.addFirst(i);
+                count--;
             }
-
-            if (!start.isEmpty() && !end.isEmpty()) {
-                int startPos = start.pollLast();
-                int endPos = end.pollFirst();
-
-                String sub = s.substring(startPos + 1, endPos);
-//                System.out.println("Sub is " + sub);
-
-                StringBuilder toReplace = new StringBuilder(s.substring(startPos, endPos + 1));
-                StringBuilder replaceWith = new StringBuilder("" + Transition.ENDCHAR);
-//                System.out.println("Toreplace is " + toReplace.toString());
-                toProcessAfter = toProcessAfter.replace(toReplace, replaceWith);
-
-                processedParantheses.add(stringNaarRegExp(sub, r, null));
+            if (count > 1) {
+                moetRecursief = true;
             }
         }
 
-        RegExp reg = stringNaarRegExp(toProcessAfter, r, processedParantheses);
-//        System.out.println(reg.getTaal(10));
+        Queue<String> queue = new LinkedList<>();
+        queue.add(startString);
+
+        Deque<RegExp> processedParantheses = new ArrayDeque<>();
+
+        RegExp retval = new RegExp();
+
+        while (!queue.isEmpty()) {
+            String s = queue.poll();
+//            System.out.println("Working on " + s);
+            Deque<Integer> start = new ArrayDeque<>();
+            Deque<Integer> end = new ArrayDeque<>();
+
+            String toProcessAfter = s;
+
+            for (int i = 0; i < s.length(); i++) {
+                char c = s.charAt(i);
+
+                if (c == '(') {
+                    start.addLast(i);
+                }
+
+                if (c == ')') {
+                    end.addFirst(i);
+                }
+
+                if (!start.isEmpty() && !end.isEmpty()) {
+                    int startPos = start.pollLast();
+                    int endPos = end.pollFirst();
+
+                    String sub = s.substring(startPos + 1, endPos);
+//                    System.out.println("Sub is " + sub);
+
+                    StringBuilder toReplace = new StringBuilder(s.substring(startPos, endPos + 1));
+                    StringBuilder replaceWith = new StringBuilder("" + Transition.ENDCHAR);
+//                    System.out.println("Toreplace is " + toReplace.toString());
+                    toProcessAfter = toProcessAfter.replace(toReplace, replaceWith);
+//                    System.out.println("Next string is " + toProcessAfter);
+                    queue.add(toProcessAfter);
+                    if (sub.contains("" + Transition.ENDCHAR)) {
+                        // We have simplified the parantheses here, therefore before we continue we must first turn this into a regexp
+                        RegExp reg = stringNaarRegExp(sub, r, processedParantheses);
+                        processedParantheses.add(reg);
+//                        System.out.println(reg.getTaal(10, 100));
+                    } else {
+                        processedParantheses.add(stringNaarRegExp(sub, r, null));
+                    }
+//                    System.out.println("----");
+                    break;
+                }
+            }
+            if (!s.contains("(")) {
+                retval = stringNaarRegExp(toProcessAfter, r, processedParantheses);
+            }
+        }
+//        System.out.println(retval.getTaal(10, 100));
 //        System.out.println("----------");
-        return reg;
+        return retval;
     }
 
     public RegExp naarRegExp(String s) {

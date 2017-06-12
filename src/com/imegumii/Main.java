@@ -9,13 +9,7 @@ public class Main {
 
 
     public static void main(String[] args) {
-//        Test.test();
-
-//        Hopcroft();
-//        TestUitOpdrachtBeschrijving();
-
         String s = "a*(aa+ |ba*b ) * (abba|baab|bbbb)+";
-
 
         String s2 = "a(a+ | b*((a|b)+))";
         String s3 = "(a|b)+a";
@@ -23,12 +17,17 @@ public class Main {
         String s4 = "a+((ab)*b|ab|(b)*bb)+(abba|baab)+";
         String s5 = "a(ab)*b(a|b)|ab|(b)*bb";
         String s6 = "(fuck)+";
-        String s7 = "(a|b)";
+        String s7 = "a((a|b)+(baab|abba))";
 
-        RegExp reg = new RegExp();
+//        NDFA<String> ndfa = (NDFA<String>) FileParser.read("ndfa1.dot");
+//        ndfa.print();
+//        new GrammarConverter().toGrammar(ndfa).print();
+
+//        RegExp r = new RegExp();
+//        String todo = s;
+//        System.out.println(todo);
+//        System.out.println(r.naarRegExp(todo).getTaal(4, 10));
 
         new Frame();
-//        new PopupFrame("Regex", reg.naarRegExp(s6));
-
     }
 }

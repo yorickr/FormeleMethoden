@@ -44,7 +44,7 @@ public class Transition <T extends Comparable> implements Comparable<Transition<
 
     @Override
     public String toString() {
-        return "(" + this.vanState + ", " + this.symbol + ")-->" + this.naarState;
+        return "" + this.vanState + ">" + this.symbol + ">" + this.naarState;
 
     }
 }

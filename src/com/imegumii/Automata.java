@@ -1,9 +1,6 @@
 package com.imegumii;
 
-import java.util.Arrays;
-import java.util.Set;
-import java.util.SortedSet;
-import java.util.TreeSet;
+import java.util.*;
 
 /**
  * Created by imegumii on 18/04/2017.
@@ -54,13 +51,37 @@ public class Automata <T extends Comparable> extends Importable {
 
     public String getTransitions()
     {
-        String s = "";
-        for(Transition t : transistions)
+        StringBuilder s = new StringBuilder();
+        s.append(type).append("\n");
+        s.append('B');
+        boolean first = true;
+        for (T beginState : this.beginStates) {
+            if (first) {
+                first = false;
+            } else {
+                s.append(',');
+            }
+            s.append(beginState.toString());
+        }
+        s.append('\n');
+        first = true;
+        s.append('E');
+        for (T eindState : this.eindStates) {
+            if (first) {
+                first = false;
+            } else {
+                s.append(',');
+            }
+            s.append(eindState.toString());
+        }
+        s.append('\n');
+
+        for(Transition<T> t : transistions)
         {
-            s += t.toString() + "\n";
+            s.append(t.toString()).append("\n");
         }
 
-        return s;
+        return s.toString();
     }
 
     public void print() {
