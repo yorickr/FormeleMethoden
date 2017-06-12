@@ -241,8 +241,8 @@ public class RegExp extends Importable{
                 break;
 
             case PUNT:
-                resLinks = links == null ? leeg : links.getTaal(maxOperaties, maxLength).getSymbols();
-                resRechts = rechts == null ? leeg : rechts.getTaal(maxOperaties, maxLength).getSymbols();
+                resLinks = links == null ? leeg : links.getTaal(maxOperaties -1, maxLength).getSymbols();
+                resRechts = rechts == null ? leeg : rechts.getTaal(maxOperaties -1, maxLength).getSymbols();
                 for (String s1 : resLinks) {
                     for (String s2 : resRechts) {
                         resultaat.add(s1 + s2);

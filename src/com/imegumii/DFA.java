@@ -22,6 +22,10 @@ public class DFA<T extends Comparable> extends Automata<T> {
 
 
         for (int i = 0; i < s.length(); i++) {
+            if (!this.symbols.contains(s.charAt(i))) {
+                // reject, because we don't contain this symbol
+                return false;
+            }
             for (Transition<T> t : this.transistions) {
 //                System.out.println("State is " + t.vanState);
 //                System.out.println("CurrentState is " + currentState);

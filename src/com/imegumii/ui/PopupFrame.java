@@ -4,6 +4,7 @@ import com.imegumii.*;
 
 import javax.swing.*;
 import javax.swing.border.Border;
+import javax.swing.text.BadLocationException;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -37,13 +38,20 @@ public class PopupFrame extends JFrame {
         generatePanel.setLayout(new BoxLayout(generatePanel, BoxLayout.LINE_AXIS));
         generatePanel.setBorder(BorderFactory.createEmptyBorder(10,10,10,10));
 
+        JPanel textPanel = new JPanel();
+        textPanel.setLayout(new BoxLayout(textPanel, BoxLayout.Y_AXIS));
+        textPanel.setBorder(BorderFactory.createEmptyBorder(10,10,10,10));
+
         JTextArea textArea = new JTextArea();
         JScrollPane scrollPane = new JScrollPane(textArea);
+
+        JTextArea acceptArea = new JTextArea();
+        JScrollPane acceptScrollPane = new JScrollPane(acceptArea);
 
         JTextField operaties = new JTextField();
         JTextField lengte = new JTextField();
 
-        JButton generateButton = new JButton("Generate taal");
+        JButton generateButton = new JButton("Generate language");
 //        JButton cancelButton = new JButton("Cancel operation");
 
         JTextField acceptString = new JTextField();
@@ -66,16 +74,21 @@ public class PopupFrame extends JFrame {
 //        });
 
         acceptButton.addActionListener(e -> {
-            textArea.setText("");
             BackgroundWorker.instance().addWorker(() -> {
-                textArea.append("Does the regex accept " + acceptString.getText() + " ? " + (minimizedDfa.accepteer(acceptString.getText()) ? "yes" : "no"));
+                try {
+                    acceptArea.getDocument().insertString(0, "Does the regex accept " + acceptString.getText() + " ? " + (minimizedDfa.accepteer(acceptString.getText()) ? "yes" : "no") + "\n", null);
+                } catch (BadLocationException e1) {
+                    e1.printStackTrace();
+                }
             });
         });
 
         operaties.setText("4");
         lengte.setText("100");
 
-        container.add(scrollPane, BorderLayout.CENTER);
+        textPanel.add(scrollPane);
+        textPanel.add(acceptScrollPane);
+        container.add(textPanel, BorderLayout.CENTER);
 
         generatePanel.add(generateButton);
         generatePanel.add(Box.createRigidArea(new Dimension(10,0)));
