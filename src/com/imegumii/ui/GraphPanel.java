@@ -83,23 +83,28 @@ public class GraphPanel extends JPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
 
-                String filename = "img." + name.toLowerCase() + ".png";
-                File file = new File("export/" + filename);
+                BackgroundWorker.instance().addWorker(new BackgroundWorker.Worker() {
+                    @Override
+                    public void execute() {
+                        String filename = "img." + name.toLowerCase() + ".png";
+                        File file = new File("export/" + filename);
 
-                if(file.exists()){
-                    int reply = JOptionPane.showConfirmDialog(null, "The file " + filename + "already exists. Do you want to overwrite it?", "File exists", JOptionPane.YES_NO_OPTION);
-                    if (reply != JOptionPane.YES_OPTION) {
-                        StatusPanel.Instance().setStatus("Cancelled export");
-                        return;
+                        if(file.exists()){
+                            int reply = JOptionPane.showConfirmDialog(GraphPanel.this, "The file " + filename + "already exists. Do you want to overwrite it?", "File exists", JOptionPane.YES_NO_OPTION);
+                            if (reply != JOptionPane.YES_OPTION) {
+                                StatusPanel.Instance().setStatus("Cancelled export");
+                                return;
+                            }
+                        }
+
+                        try {
+                            FileUtils.copyFile(f, file);
+                            StatusPanel.Instance().setStatus("Success: " + filename);
+                        } catch (IOException e1) {
+                            StatusPanel.Instance().setStatus("Something went wrong while exporting the file");
+                        }
                     }
-                }
-
-                try {
-                    FileUtils.copyFile(f, file);
-                    StatusPanel.Instance().setStatus("Success: " + filename);
-                } catch (IOException e1) {
-                    StatusPanel.Instance().setStatus("Something went wrong while exporting the file");
-                }
+                });
             }
         });
 
