@@ -47,6 +47,10 @@ public class BackgroundWorker implements Runnable{
         running = false;
     }
 
+    public void cancel() {
+        this.t.interrupt();
+    }
+
     @Override
     public void run() {
 
@@ -55,6 +59,7 @@ public class BackgroundWorker implements Runnable{
             try {
                 Thread.sleep(100);
             } catch (InterruptedException e) {
+                System.out.println("Canceled thread");
             }
 
             if(workers.isEmpty())

@@ -1,6 +1,7 @@
 package com.imegumii;
 
 import com.imegumii.ui.Frame;
+import com.imegumii.ui.PopupFrame;
 
 import java.util.TreeSet;
 
@@ -26,10 +27,8 @@ public class Main {
 
         RegExp reg = new RegExp();
 
-//        System.out.println(reg.naarRegExp(s3).getTaal(10));
-//        System.out.println(reg.naarRegExp(s7).getTaal(10));
-//        Test.TestUitOpdrachtBeschrijving();
-//        Test.Thompson();
         new Frame();
+//        new PopupFrame("Regex", reg.naarRegExp(s6));
+
     }
 }

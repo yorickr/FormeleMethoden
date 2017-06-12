@@ -278,7 +278,7 @@ public class RegExp extends Importable{
 
         }
         SortedSet<String> ret = new TreeSet<>();
-        resultaat.stream().filter(r -> r.length() < maxLength).forEach(ret::add);
+        resultaat.stream().filter(r -> r.length() <= maxLength).forEach(ret::add);
         return new Taal(ret);
     }
 
