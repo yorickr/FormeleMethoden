@@ -1,0 +1,2 @@
+REGEX
+(aa)+(bba)*(a|b)*(c|d)
