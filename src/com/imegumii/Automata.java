@@ -90,4 +90,34 @@ public class Automata <T extends Comparable> extends Importable {
         }
         return "Automata" + sb.toString();
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        if(!(obj instanceof Automata))
+            return false;
+
+        if(this.type != ((Automata<T>)obj).type)
+            return false;
+
+        DFA<String> dfa1;
+        DFA<String> dfa2;
+
+        if(this.type == Type.NDFA)
+        {
+            dfa1 = ((NDFA<T>)this).toDFA().minimaliseerHopcroft();
+            dfa2 = ((NDFA<T>) obj).toDFA().minimaliseerHopcroft();
+        }
+        else
+        {
+            dfa1 = ((DFA<String>)this).minimaliseerHopcroft();
+            dfa2 = ((DFA<String>) obj).minimaliseerHopcroft();
+        }
+
+        DFA<String> result = dfa2.ontkenning().en(dfa1).minimaliseerHopcroft();
+
+        if(result.states.size() <= 1)
+            return true;
+
+        return false;
+    }
 }

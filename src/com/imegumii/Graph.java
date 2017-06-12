@@ -92,17 +92,27 @@ public class Graph {
         return text;
     }
 
-    public static synchronized void generateImage(Automata<String> a, String fileName) {
+    public static synchronized  File generateImage(Automata<String> a)
+    {
+        return generateImage(a, null);
+    }
+
+    public static synchronized File generateImage(Automata<String> a, String fileName) {
+
+        File f;
+        if (fileName != null) {
+            f = new File("images/" + fileName + ".png");
+        } else {
+            f = new File("images/" + a.hashCode() + ".png");
+        }
+
         try {
             MutableGraph g = Parser.read(Graph.generateImageString(a));
-            if (fileName != null) {
-                Graphviz.fromGraph(g).width(Math.max(a.states.size() * 150, 750)).render(Format.PNG).toFile(new File("images/" + fileName + ".png"));
-            } else {
-                Graphviz.fromGraph(g).width(Math.max(a.states.size() * 150, 750)).render(Format.PNG).toFile(new File("images/" + a.hashCode() + ".png"));
-            }
+            Graphviz.fromGraph(g).width(Math.max(a.states.size() * 150, 750)).render(Format.PNG).toFile(f);
         } catch (IOException e) {
             e.printStackTrace();
         }
 
+        return f;
     }
 }
