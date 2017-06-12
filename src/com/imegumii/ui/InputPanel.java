@@ -51,9 +51,12 @@ public class InputPanel extends JPanel {
                 String regS = text.getText();
                 String name = regS.toLowerCase().trim();
 
+                text.setText("");
+
                 StatusPanel.Instance().setStatus("Parsing REGEX", 20);
 
-                RegExp regex = RegExp.naarRegExp(regS);
+                RegExp regex = new RegExp();
+                regex = regex.naarRegExp(regS);
 
                 StatusPanel.Instance().setStatus("Converting REGEX to NDFA", 40);
 

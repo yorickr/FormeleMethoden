@@ -102,7 +102,8 @@ public class FileParser {
         String line = "Error";
         line = br.readLine();
 
-        RegExp regex = RegExp.naarRegExp(line);
+        RegExp regex = new RegExp();
+        regex = regex.naarRegExp(line);
 
         return regex;
     }
