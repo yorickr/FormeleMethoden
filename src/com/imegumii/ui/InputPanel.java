@@ -160,7 +160,6 @@ public class InputPanel extends JPanel {
 
         bottomPanel.add(fileButton);
 
-        bottomPanel.add(Box.createHorizontalGlue());
         this.add(bottomPanel, BorderLayout.SOUTH);
     }
 

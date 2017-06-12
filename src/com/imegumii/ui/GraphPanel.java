@@ -52,7 +52,7 @@ public class GraphPanel extends JPanel {
             }
         });
 
-        JButton exportData = new JButton("Export raw data");
+        JButton exportData = new JButton("Export data");
         exportData.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -116,7 +116,7 @@ public class GraphPanel extends JPanel {
             }
         });
 
-        JButton minimizeButton = new JButton("Minimize (Hopcroft)");
+        JButton minimizeButton = new JButton("Hopcroft");
         minimizeButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -158,7 +158,7 @@ public class GraphPanel extends JPanel {
             }
         });
 
-        JButton minimize2Button = new JButton("Minimize (Bryzowski)");
+        JButton minimize2Button = new JButton("Bryzowski");
         minimize2Button.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -200,7 +200,63 @@ public class GraphPanel extends JPanel {
             }
         });
 
+        JButton reverseButton = new JButton("Reverse");
+        reverseButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                BackgroundWorker.instance().addWorker(new BackgroundWorker.Worker() {
+                    @Override
+                    public void execute() {
+
+                        StatusPanel.Instance().setStatus("Reversing ", 20);
+
+                        NDFA<String> reverse = ((DFA<String>) automata).reverse();
+
+                        StatusPanel.Instance().setStatus("Generating reversed image", 70);
+
+                        File img = Graph.generateImage(reverse);
+
+                        TabPanel.Instance().addGraph("Reverse " + name, img, reverse);
+
+                        StatusPanel.Instance().setStatus("Done", 100);
+                    }
+                });
+            }
+        });
+
+        JButton notButton = new JButton("Not");
+        notButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                BackgroundWorker.instance().addWorker(new BackgroundWorker.Worker() {
+                    @Override
+                    public void execute() {
+
+                        StatusPanel.Instance().setStatus("Nothing ", 20);
+
+                        DFA<String> not = ((DFA<String>) automata).ontkenning();
+
+                        StatusPanel.Instance().setStatus("Generating not image", 70);
+
+                        File img = Graph.generateImage(not);
+
+                        TabPanel.Instance().addGraph("Not " + name, img, not);
+
+                        StatusPanel.Instance().setStatus("Done", 100);
+                    }
+                });
+            }
+        });
+
         buttonPanel.add(Box.createHorizontalGlue());
+
+        if(automata.type == Importable.Type.DFA) {
+            buttonPanel.add(notButton);
+            buttonPanel.add(Box.createRigidArea(new Dimension(10, 0)));
+            buttonPanel.add(reverseButton);
+            buttonPanel.add(Box.createRigidArea(new Dimension(10, 0)));
+        }
+
         buttonPanel.add(minimize2Button);
         buttonPanel.add(Box.createRigidArea(new Dimension(10, 0)));
         buttonPanel.add(minimizeButton);
