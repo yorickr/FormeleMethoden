@@ -406,35 +406,14 @@ public class Main {
         String s3 = "(a|b)+a";
 
         String s4 = "a+((ab)*b|ab|(b)*bb)+(abba|baab)+";
-        String s5 = "((ab)*b(a|b)|ab|(b)*bb)+";
+        String s5 = "a(ab)*b(a|b)|ab|(b)*bb";
+        String s6 = "(fuck)+";
+        String s7 = "(a|b)";
 
         RegExp reg = new RegExp();
-//        System.out.println(reg.toRegExp("a*|b+").getTaal(5));
 
-//        RegExp r1 = new RegExp("a");
-//        RegExp r2 = new RegExp("b");
-//
-//        RegExp r3 = r1.punt(r2);
-//
-//        RegExp r4 = new RegExp();
-//
-//        RegExp r5 = r3.punt(r4);
-//
-//        traverseRegExp(r5);
-//        System.out.println(aantalOperators(r5, 1));
-//        System.out.println(r5.getTaal(5));
-
-//        RegExp all = bSter.punt(aPlus);
-//        RegExp all = r1.punt(r2.ster()).punt(r3.plus());
-//
-//        System.out.println(all.getTaal(5));
-//        reg.parseString(s);
-//        reg.parseString(s2);
-//        System.out.println(reg.parseString(s4).getTaal(3));
-//        System.out.println(aantalOperators(reg.parseString(s2),1));
-//        System.out.println(aantalOperators(reg.parseString(s4), 1));
-        System.out.println(aantalOperators(reg.parseString(s5), 1));
-//        System.out.println(reg.parseString(s3).getTaal(100)); // werkte!
+//        System.out.println(reg.naarRegExp(s3).getTaal(10));
+        System.out.println(reg.naarRegExp(s7).getTaal(10));
 
         new Frame();
     }

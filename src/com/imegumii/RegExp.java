@@ -84,7 +84,14 @@ public class RegExp extends Importable{
     }
 
     public RegExp naarRegExp(String s) {
-        // String s is zonder spaces
+
+        StringBuilder noSpacesString = new StringBuilder();
+
+        for (char c : s.toCharArray()) {
+            if (c != ' ') {
+                noSpacesString.append(c);
+            }
+        }
 //        RegExp retval = new RegExp();
         // Als eerste moet de string in groupen gedeeld worden op basis van haakjes.
         // bijv. "a+((ab)*b|ab|(b)*bb)+(abba|baab)+" naar ["a+", [ [["ab"], "*b"], ["ab"], [["b"], "*bb"], "+" ], [ ["abba", "baab"], "+"] ]
@@ -92,7 +99,7 @@ public class RegExp extends Importable{
         // a.plus().punt( (ab.ster().punt(b).of(ab).of(b.ster().punt(bb)).plus()) ).punt( abba.punt().baab.plus() )
         // Niet gelukt.
 //        System.out.println("We lopen door " + s);
-        RegExp r = loopRecursiefDoorString(s, new RegExp());
+        RegExp r = loopRecursiefDoorString(noSpacesString.toString(), new RegExp());
         return r;
     }
 
@@ -118,12 +125,12 @@ public class RegExp extends Importable{
 
 //        System.out.println("OfStrings: " + strings);
 
-        ArrayList<RegExp> toDot = new ArrayList<>();
         RegExp retval = new RegExp();
-        toDot.add(initieel);
+//        toDot.add(initieel);
 
         for (String s : strings) {
             RegExp total = new RegExp();
+            ArrayList<RegExp> toDot = new ArrayList<>();
             for (int i = 0; i < s.length(); i++) {
                 char current = s.charAt(i);
                 RegExp prev;
