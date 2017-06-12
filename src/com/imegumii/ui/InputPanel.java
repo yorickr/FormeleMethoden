@@ -64,16 +64,16 @@ public class InputPanel extends JPanel {
                         StatusPanel.Instance().setStatus("Converting REGEX to NDFA", 40);
 
                         NDFA<String> ndfa = ThompsonConverter.convert(regex);
-                        try {
-                            Thread.sleep(500);
-                        } catch (InterruptedException e1) {
-                        }
 
                         StatusPanel.Instance().setStatus("Generating image for NDFA", 70);
 
                         Graph.generateImage(ndfa, name);
 
                         TabPanel.Instance().addGraph("REGEX: " + name, new File("images/" + name + ".png"), ndfa);
+
+                        StatusPanel.Instance().setStatus("Generating taal", 90);
+
+                        new PopupFrame(name, regex.getTaal(10, 3).toString());
 
                         StatusPanel.Instance().setStatus("Done", 100);
                     }
