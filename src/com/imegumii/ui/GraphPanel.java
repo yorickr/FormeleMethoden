@@ -124,7 +124,7 @@ public class GraphPanel extends JPanel {
 
                             StatusPanel.Instance().setStatus("Minimizing cdfa." + name, 50);
 
-                            DFA<String> mini = convert.minimaliseer();
+                            DFA<String> mini = convert.minimaliseerHopcroft();
 
                             StatusPanel.Instance().setStatus("Generating minimized image", 70);
 
@@ -136,6 +136,23 @@ public class GraphPanel extends JPanel {
                             System.out.println(mini.accepteer("fuuuuuuuckabb"));
                             mini.geefTaalTotLengte(10).getSymbols().forEach(s -> System.out.println("Accepteer " + s + " ? " + mini.accepteer(s)));
                             StatusPanel.Instance().setStatus("Done", 100);
+                        }
+                        else if(automata.type == Importable.Type.DFA)
+                        {
+                            DFA<String> dfa = (DFA<String>) automata;
+
+                            StatusPanel.Instance().setStatus("Minimizing dfa." + name, 40);
+
+                            DFA<String> mini = dfa.minimaliseerHopcroft();
+
+                            StatusPanel.Instance().setStatus("Generating minimized image", 60);
+
+                            Graph.generateImage(mini, "mcdfa");
+
+                            TabPanel.Instance().addGraph("DFA: mcdfa." + name, new File("images/mcdfa.png"), mini);
+
+                            StatusPanel.Instance().setStatus("Done", 100);
+
                         }
                     }
                 });

@@ -10,13 +10,8 @@ import javafx.util.Pair;
  */
 public class DFA<T extends Comparable> extends Automata<T> {
 
-    public DFA(Character[] symbols) {
-        super(symbols);
-        this.type = Type.DFA;
-    }
-
-    public DFA(SortedSet<Character> symbols) {
-        super(symbols);
+    public DFA() {
+        super();
         this.type = Type.DFA;
     }
 
@@ -73,7 +68,7 @@ public class DFA<T extends Comparable> extends Automata<T> {
 
     public NDFA<String> reverse()
     {
-        NDFA<String> reversed = new NDFA<String>(this.symbols);
+        NDFA<String> reversed = new NDFA<String>();
 
         for(Transition<T> t : transistions)
         {
@@ -101,7 +96,7 @@ public class DFA<T extends Comparable> extends Automata<T> {
     }
 
     public DFA<T> ontkenning() {
-        DFA<T> returnDFA = new DFA<T>(this.symbols);
+        DFA<T> returnDFA = new DFA<T>();
 
         SortedSet<T> newEndStates = new TreeSet<>();
 
@@ -138,7 +133,7 @@ public class DFA<T extends Comparable> extends Automata<T> {
 
     private DFA<String> maakTupleDFA(DFA<String> dfa1, DFA<String> dfa2, boolean of)
     {
-        DFA<String> merged = new DFA<String>(dfa1.symbols);
+        DFA<String> merged = new DFA<String>();
 
         //Create all transitions and states
         for(Transition t1 : dfa1.transistions)

@@ -48,7 +48,7 @@ public class GraphImagePanel extends JPanel {
                 width = (int) ((height * image.getWidth()) / image.getHeight());
             }
 
-            g2d.drawImage(image, 0,50, width, height, this);
+            g2d.drawImage(image, 0,0, width, height, this);
         }
     }
 }

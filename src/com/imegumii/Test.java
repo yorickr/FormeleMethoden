@@ -67,7 +67,7 @@ public class Test {
 
     public static void P1Opdracht1(TreeSet<String> stringsToParse) {
         Character [] characters = {'a', 'b'};
-        DFA<String> myAutomata = new DFA<String>(characters);
+        DFA<String> myAutomata = new DFA<String>();
 
         // AAB
         myAutomata.addTransition(new Transition<String>("q0", 'a', "q1"));
@@ -177,8 +177,7 @@ public class Test {
 
     public static void Hopcroft()
     {
-        Character [] characters = {'a', 'b'};
-        DFA<String> automata = new DFA<String>(characters);
+        DFA<String> automata = new DFA<String>();
 
 
         automata.addTransition(new Transition<String>("q0", 'a', "q2"));
@@ -240,8 +239,7 @@ public class Test {
 
     public static void ReverseAutomata()
     {
-        Character [] characters = {'a', 'b'};
-        DFA<String> myAutomata = new DFA<String>(characters);
+        DFA<String> myAutomata = new DFA<String>();
 
         // AAB
         myAutomata.addTransition(new Transition<String>("0", 'a', "0"));
@@ -277,8 +275,7 @@ public class Test {
     }
 
     public static void Practicum4() {
-        Character [] characters = {'a', 'b'};
-        NDFA<String> myAutomata = new NDFA<String>(characters);
+        NDFA<String> myAutomata = new NDFA<String>();
 
 //        myAutomata.addTransition(new Transition<String>("0", 'a', "1"));
 //        myAutomata.addTransition(new Transition<String>("0", 'a', "2"));
@@ -359,8 +356,7 @@ public class Test {
 
     public static void Practicum5 () {
 
-        Character [] characters = {'a', 'b'};
-        DFA<String> myAutomata = new DFA<String>(characters);
+        DFA<String> myAutomata = new DFA<String>();
         // Test 4 minimalisatie
 
         myAutomata.addTransition(new Transition<String>("0", 'a', "0"));
@@ -400,8 +396,7 @@ public class Test {
 
     public static void TupleConstructie()
     {
-        Character [] characters = {'a', 'b'};
-        DFA<String> aut1 = new DFA<String>(characters);
+        DFA<String> aut1 = new DFA<String>();
 
         aut1.addTransition(new Transition<String>("1", 'a', "2"));
         aut1.addTransition(new Transition<String>("1", 'b', "1"));
@@ -418,7 +413,7 @@ public class Test {
         Graph.generateImage(aut1, "automaat1");
 
 
-        DFA<String> aut2 = new DFA<String>(characters);
+        DFA<String> aut2 = new DFA<String>();
 
         aut2.addTransition(new Transition<String>("1", 'a', "1"));
         aut2.addTransition(new Transition<String>("1", 'b', "2"));
@@ -454,8 +449,7 @@ public class Test {
     }
 
     public static void TestUitOpdrachtBeschrijving() {
-        Character [] characters = {'a', 'b'};
-        NDFA<String> ndfa = new NDFA<String>(characters);
+        NDFA<String> ndfa = new NDFA<String>();
 
         ndfa.addTransition(new Transition<String>("q0", 'a', "q1"));
 

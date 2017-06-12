@@ -9,8 +9,7 @@ public class ThompsonConverter {
 
     public static NDFA<String> convert(RegExp regex)
     {
-        Character [] characters = {'a', 'b'};
-        NDFA<String> generated = new NDFA<String>(characters);
+        NDFA<String> generated = new NDFA<String>();
 
         convertStatement(regex, generated);
 

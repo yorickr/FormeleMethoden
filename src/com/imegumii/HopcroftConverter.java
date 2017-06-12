@@ -1,5 +1,7 @@
 package com.imegumii;
 
+import javafx.geometry.HPos;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.SortedSet;
@@ -74,17 +76,13 @@ public class HopcroftConverter {
                 sets.add(currentSet);
             }
 
-            if(t.symbol == 'a')
-                currentSet.transitionAState = (String)t.naarState;
-            else if(t.symbol == 'b')
-                currentSet.transitionBState = (String)t.naarState;
+            currentSet.addColum(new HopcroftColumn(t.symbol, (String)t.naarState, "-"));
         }
     }
 
     private DFA<String> HopcrofttoDFA()
     {
-        Character [] characters = {'a', 'b'};
-        DFA<String> result = new DFA<String>(characters);
+        DFA<String> result = new DFA<String>();
 
         ArrayList<String> groups = new ArrayList<String>();
 
@@ -92,8 +90,8 @@ public class HopcroftConverter {
         {
             if(!groups.contains(s.group))
             {
-                result.addTransition(new Transition<String>(s.group, 'a', s.transitionAGroup));
-                result.addTransition(new Transition<String>(s.group, 'b', s.transitionBGroup));
+                for(HopcroftColumn c : s.columns)
+                    result.addTransition(new Transition<String>(s.group, c.symbol, c.group));
 
                 if(s.isEndState)
                     result.defineAsEndState(s.group);
@@ -112,13 +110,13 @@ public class HopcroftConverter {
     {
         for(HopcroftSet s : sets)
         {
-            for(HopcroftSet h : sets)
+            for(HopcroftColumn c : s.columns)
             {
-                if(s.transitionAState == h.state)
-                    s.transitionAGroup = h.group;
-
-                if(s.transitionBState == h.state)
-                    s.transitionBGroup = h.group;
+                for(HopcroftSet h : sets)
+                {
+                    if(c.state.equals(h.state))
+                        c.group = h.group;
+                }
             }
         }
     }
@@ -129,7 +127,10 @@ public class HopcroftConverter {
 
         for(HopcroftSet s : sets)
         {
-            String key = s.group + s.transitionAGroup + s.transitionBGroup;
+            String key = s.group;
+
+            for(HopcroftColumn c : s.columns)
+                key += c.symbol + c.group;
 
             if(!groups.containsKey(key))
             {
@@ -181,11 +182,7 @@ class HopcroftSet implements Comparable<HopcroftSet>{
     public String group;
     public String state;
 
-    public String transitionAState;
-    public String transitionAGroup;
-
-    public String transitionBState;
-    public String transitionBGroup;
+    public ArrayList<HopcroftColumn> columns;
 
     public boolean isEndState = false;
 
@@ -194,6 +191,18 @@ class HopcroftSet implements Comparable<HopcroftSet>{
         this.group = group;
         this.state = state;
         this.isEndState = isEndState;
+
+        columns = new ArrayList<>();
+    }
+
+    public void addColum(HopcroftColumn c)
+    {
+        this.columns.add(c);
+    }
+
+    public void clearColumns()
+    {
+        this.columns.clear();
     }
 
     @Override
@@ -204,6 +213,27 @@ class HopcroftSet implements Comparable<HopcroftSet>{
     @Override
     public String toString()
     {
-        return group + " " + state + " | " + transitionAState + " " + transitionAGroup + " | " + transitionBState + " " + transitionBGroup + " " + (isEndState?"*":"");
+        String s =  group + " " + state + " | ";
+
+        for(HopcroftColumn c : columns)
+            s += "(" + c.symbol + ") " + c.state + " " + c.group + " | ";
+
+        s+= " " + (isEndState?"*":"");
+
+        return s;
+    }
+}
+
+class HopcroftColumn {
+
+    public char symbol;
+    public String state;
+    public String group;
+
+    public HopcroftColumn(char s, String state, String group)
+    {
+        this.symbol = s;
+        this.state = state;
+        this.group = group;
     }
 }

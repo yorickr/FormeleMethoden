@@ -96,9 +96,9 @@ public class Graph {
         try {
             MutableGraph g = Parser.read(Graph.generateImageString(a));
             if (fileName != null) {
-                Graphviz.fromGraph(g).width(1080).render(Format.PNG).toFile(new File("images/" + fileName + ".png"));
+                Graphviz.fromGraph(g).width(Math.max(a.states.size() * 150, 750)).render(Format.PNG).toFile(new File("images/" + fileName + ".png"));
             } else {
-                Graphviz.fromGraph(g).width(1080).render(Format.PNG).toFile(new File("images/" + a.hashCode() + ".png"));
+                Graphviz.fromGraph(g).width(Math.max(a.states.size() * 150, 750)).render(Format.PNG).toFile(new File("images/" + a.hashCode() + ".png"));
             }
         } catch (IOException e) {
             e.printStackTrace();

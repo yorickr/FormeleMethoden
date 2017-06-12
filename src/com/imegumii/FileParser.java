@@ -44,8 +44,7 @@ public class FileParser {
 
     public static DFA<String> readDFA(BufferedReader br) throws IOException {
 
-        Character[] chars = {'a', 'b'};
-        DFA<String> dfa = new DFA<String>(chars);
+        DFA<String> dfa = new DFA<String>();
 
         String line;
         while ((line = br.readLine()) != null) {
@@ -70,8 +69,7 @@ public class FileParser {
 
     public static NDFA<String> readNDFA(BufferedReader br) throws IOException {
 
-    Character[] chars = {'a', 'b'};
-    NDFA<String> ndfa = new NDFA<String>(chars);
+    NDFA<String> ndfa = new NDFA<String>();
         String line;
         while ((line = br.readLine()) != null) {
             if(line.startsWith("B")) {

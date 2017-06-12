@@ -18,11 +18,7 @@ public class Automata <T extends Comparable> extends Importable {
 
     protected SortedSet<Character> symbols;
 
-    public Automata(Character [] symbols) {
-        this(new TreeSet<Character>(Arrays.asList(symbols)));
-    }
-
-    public Automata(SortedSet<Character> symbols) {
+    public Automata() {
         super(Type.ERROR);
         states = new TreeSet<T>();
         beginStates = new TreeSet<T>();
@@ -30,10 +26,13 @@ public class Automata <T extends Comparable> extends Importable {
 
         transistions = new TreeSet<>();
 
-        this.symbols = symbols;
+        this.symbols = new TreeSet<>();
     }
 
     public void addTransition (Transition<T> t) {
+        if(t.symbol != Transition.EPSILON)
+            symbols.add(t.symbol);
+
         transistions.add(t);
         states.add(t.vanState);
         states.add(t.naarState);

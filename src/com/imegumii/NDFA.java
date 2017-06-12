@@ -6,13 +6,9 @@ import java.util.*;
  * Created by imegumii on 01/05/2017.
  */
 public class NDFA<T extends Comparable> extends Automata<T> {
-    public NDFA(Character[] symbols) {
-        super(symbols);
-        this.type = Type.NDFA;
-    }
 
-    public NDFA(SortedSet<Character> symbols) {
-        super(symbols);
+    public NDFA() {
+        super();
         this.type = Type.NDFA;
     }
 
@@ -42,7 +38,7 @@ public class NDFA<T extends Comparable> extends Automata<T> {
     }
 
     public DFA<String> toDFA () {
-        DFA<String> eindDFA = new DFA<>(this.symbols);
+        DFA<String> eindDFA = new DFA<>();
 
         SortedSet<T> startSet = new TreeSet<T>();
         //er kunnen meer start states zijn,
