@@ -69,9 +69,9 @@ public class InputPanel extends JPanel {
 
                         TabPanel.Instance().addGraph(name, img, ndfa);
 
-                        StatusPanel.Instance().setStatus("Generating taal", 90);
+//                        StatusPanel.Instance().setStatus("Generating taal", 90);
 
-                        new PopupFrame(name, regex);
+//                        new PopupFrame(name, regex);
 
                         StatusPanel.Instance().setStatus("Done", 100);
                     }

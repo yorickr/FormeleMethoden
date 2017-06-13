@@ -200,6 +200,20 @@ public class GraphPanel extends JPanel {
             }
         });
 
+        JButton toDfaButton = new JButton("to DFA");
+        toDfaButton.addActionListener(e -> {
+            BackgroundWorker.instance().addWorker(() -> {
+                StatusPanel.Instance().setStatus("Converting to DFA ", 10);
+                DFA<String> convert = ((NDFA<String>) automata).toDFA();
+
+                StatusPanel.Instance().setStatus("Generating image for DFA", 50);
+                File img = Graph.generateImage(convert);
+                TabPanel.Instance().addGraph(name, img, convert);
+
+                StatusPanel.Instance().setStatus("Done", 100);
+            });
+        });
+
         JButton reverseButton = new JButton("Reverse");
         reverseButton.addActionListener(new ActionListener() {
             @Override
@@ -254,6 +268,12 @@ public class GraphPanel extends JPanel {
         });
 
         JButton showGrammar = new JButton("Show grammar");
+        showGrammar.addActionListener(e -> {
+            BackgroundWorker.instance().addWorker(() -> {
+                GrammarConverter c = new GrammarConverter();
+                new TextPanel("Grammar", c.toGrammar((NDFA<String>) automata).printToString());
+            });
+        });
 
         buttonPanel.add(Box.createHorizontalGlue());
 
@@ -264,19 +284,16 @@ public class GraphPanel extends JPanel {
             buttonPanel.add(Box.createRigidArea(new Dimension(10, 0)));
         }
 
-        if (automata.type == Importable.Type.NDFA) {
-            showGrammar.addActionListener(e -> {
-                BackgroundWorker.instance().addWorker(() -> {
-                    GrammarConverter c = new GrammarConverter();
-                    new TextPanel("Grammar", c.toGrammar((NDFA<String>) automata).printToString());
-                });
-            });
-            buttonPanel.add(showGrammar);
-            buttonPanel.add(Box.createRigidArea(new Dimension(10, 0)));
-        }
-
         buttonPanel.add(showPopup);
         buttonPanel.add(Box.createRigidArea(new Dimension(10, 0)));
+
+        if (automata.type == Importable.Type.NDFA) {
+            buttonPanel.add(showGrammar);
+            buttonPanel.add(Box.createRigidArea(new Dimension(10, 0)));
+
+            buttonPanel.add(toDfaButton);
+            buttonPanel.add(Box.createRigidArea(new Dimension(10, 0)));
+        }
 
         buttonPanel.add(minimize2Button);
         buttonPanel.add(Box.createRigidArea(new Dimension(10, 0)));
