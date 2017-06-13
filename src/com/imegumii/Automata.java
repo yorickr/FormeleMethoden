@@ -117,20 +117,26 @@ public class Automata <T extends Comparable> extends Importable {
         if(!(obj instanceof Automata))
             return false;
 
-        if(this.type != ((Automata<T>)obj).type)
-            return false;
+        Automata<T> other = (Automata<T>) obj;
 
         DFA<String> dfa1;
         DFA<String> dfa2;
 
         if(this.type == Type.NDFA)
         {
-            dfa1 = ((NDFA<T>)this).toDFA().minimaliseerHopcroft();
-            dfa2 = ((NDFA<T>) obj).toDFA().minimaliseerHopcroft();
+            dfa1 = ((NDFA<String>)this).toDFA().minimaliseerHopcroft();
         }
         else
         {
             dfa1 = ((DFA<String>)this).minimaliseerHopcroft();
+        }
+
+        if(other.type == Type.NDFA)
+        {
+            dfa2 = ((NDFA<String>) obj).toDFA().minimaliseerHopcroft();
+        }
+        else
+        {
             dfa2 = ((DFA<String>) obj).minimaliseerHopcroft();
         }
 

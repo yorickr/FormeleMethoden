@@ -321,9 +321,75 @@ public class InputPanel extends JPanel {
             }
         });
 
+        JButton equalsButton = new JButton("equals");
+        equalsButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+                BackgroundWorker.instance().addWorker(new BackgroundWorker.Worker() {
+                    @Override
+                    public void execute() {
+                        StatusPanel.Instance().setStatus("Parsing files", 10);
+
+                        String file1 = (String)f1Combo.getSelectedItem();
+                        String name1 = file1.replaceAll(".dot", "");
+                        String file2 = (String)f2Combo.getSelectedItem();
+                        String name2 = file2.replaceAll(".dot", "");
+
+                        Importable p1 = FileParser.read(file1);
+                        Importable p2 = FileParser.read(file1);
+
+                        Automata<String> aut = null;
+
+                        if(p1.type == Importable.Type.NDFA )
+                        {
+                            aut = (NDFA<String>)p1;
+                        }
+                        if(p1.type == Importable.Type.DFA)
+                        {
+                            aut = (DFA<String>)p1;
+                        }
+                        if(p1.type == Importable.Type.REGEX)
+                        {
+                            StatusPanel.Instance().setStatus("Converting REGEX to NDFA", 30);
+                            RegExp regex = (RegExp) p1;
+                            aut = (NDFA<String>)ThompsonConverter.convert(regex);
+                        }
+
+                        Automata<String> aut2 = null;
+
+                        if(p2.type == Importable.Type.NDFA)
+                        {
+                            aut2 = (NDFA<String>)p2;
+                        }
+                        if(p2.type == Importable.Type.DFA)
+                        {
+                            aut2 = (DFA<String>)p2;
+                        }
+                        if(p2.type == Importable.Type.REGEX)
+                        {
+                            StatusPanel.Instance().setStatus("Converting REGEX to NDFA", 50);
+                            RegExp regex2 = (RegExp) p2;
+                            aut2 = (NDFA<String>)ThompsonConverter.convert(regex2);
+                        }
+
+                        StatusPanel.Instance().setStatus("Executing equals operation", 80);
+
+                        boolean equals = aut.equals(aut2);
+
+                        new TextPanel(name1 + " equals " + name2, (equals?"They are equal":"They are not equal"));
+
+                        StatusPanel.Instance().setStatus("Done", 100);
+                    }
+                });
+            }
+        });
+
         advPanel.add(f1Combo);
         advPanel.add(Box.createRigidArea(new Dimension(10, 0)));
 
+        advPanel.add(equalsButton);
+        advPanel.add(Box.createRigidArea(new Dimension(10, 0)));
         advPanel.add(andButton);
         advPanel.add(Box.createRigidArea(new Dimension(10, 0)));
         advPanel.add(orButton);

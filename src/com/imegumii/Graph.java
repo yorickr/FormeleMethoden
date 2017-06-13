@@ -108,7 +108,7 @@ public class Graph {
 
         try {
             MutableGraph g = Parser.read(Graph.generateImageString(a));
-            Graphviz.fromGraph(g).width(Math.max(a.states.size() * 150, 750)).render(Format.PNG).toFile(f);
+            Graphviz.fromGraph(g).width(Math.min(15000, Math.max(a.states.size() * 150, 750))).render(Format.PNG).toFile(f);
         } catch (IOException e) {
             e.printStackTrace();
         }

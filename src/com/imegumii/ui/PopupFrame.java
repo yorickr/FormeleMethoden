@@ -1,7 +1,6 @@
 package com.imegumii.ui;
 
 import com.imegumii.*;
-import com.sun.tools.internal.ws.wsdl.document.Import;
 
 import javax.swing.*;
 import javax.swing.border.Border;
